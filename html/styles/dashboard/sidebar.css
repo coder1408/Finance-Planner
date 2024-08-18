@@ -1,0 +1,69 @@
+.sidebar {
+  position: fixed;
+  top: 125px; /* Adjusted to align with the header */
+  left: 0;
+  bottom: 0;
+  background-color: white;
+  width: 300px;
+  z-index: 200;
+  padding-top: 10px;
+  border-right: 2px solid #42f5d7;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+}
+
+.wlcm-text {
+  margin-left: 10px;
+  padding: 10px;
+  font-size: 50px;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 25px;
+}
+
+.menu {
+  width: 100%; /* Ensure the menu takes full width */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  padding-left: 0;
+}
+
+.menu li {
+  width: 100%; /* Ensure each list item takes full width */
+  display: flex;
+  justify-content: flex-start; /* Center the button within the list item */
+  margin: 15px 0;
+  margin-left: 20px;
+}
+
+
+.menu button {
+  width: auto; /* Adjust width as needed */
+  padding: 15px;
+  font-size: 25px;
+  color: #000;
+  background-color: transparent;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  text-align: center; /* Center text within the button */
+
+  &:hover {
+  background-color: rgb(245, 230, 230);
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+  }
+  &:active {
+  background-color: #34c3a1;
+  transform: scale(0.98); /* Slightly shrink the button */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce the shadow */
+  }
+  &:focus {
+  outline: none;
+  box-shadow: 0 0 10px #42f5d7;
+  }
+}
+

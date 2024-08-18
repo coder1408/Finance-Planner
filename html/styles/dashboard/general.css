@@ -1,0 +1,10 @@
+body {
+  background-color: lightgray;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.main-content {
+  margin-left: 150px; /* Adjusted to match the sidebar width */
+  padding: 20px;
+}
