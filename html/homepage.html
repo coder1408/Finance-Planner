@@ -3,21 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Management Dashboard</title>
+    <title>PrimePlan Financials</title>
+    <link rel="icon" href="images/logo.png" type="image/icon type">
     <link rel="stylesheet" href="styles/homepage/styles2.css">
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="#">Expense Tracker</a></li>
-                <li><a href="#">Budgeting Tools</a></li>
-                <li><a href="#">Investment Guide</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-        </nav>
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="images/logo.png" alt="PrimePlan Logo" class="logo">
+                <span class="company-name">PrimePlan Financials</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Expense Tracker</a></li>
+                    <li><a href="#">Budgeting Tools</a></li>
+                    <li><a href="#">Investment Guide</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
+
 
     <main>
         <div class="hero-section">
@@ -27,7 +34,7 @@
             <h1>Master your money,<br> master your future.</h1>
             <div class="buttons">
                 <button class="signup">Signup</button>
-                <button class="login">Login</button>
+                <button class="login" onclick="window.location.href='login-page.html'">Login</button>
             </div>
         </div>
     </main>

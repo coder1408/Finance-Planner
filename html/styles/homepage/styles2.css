@@ -1,28 +1,48 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #ffffff, #999999);
+    background: linear-gradient(180deg, #ffffff, #999999);
     color: #2e2e8f;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-header {
+.header-content {
+    display: flex;
+    justify-content: space-between; /* Align logo section to the left and nav to the right */
+    align-items: center;
+    padding: 10px 20px;
     background-color: transparent;
-    padding: 10px 0;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.logo {
+    width: 60px;
+    margin-right: 10px; /* Space between logo and company name */
+    border-radius: 50%;
+}
+
+.company-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2e2e8f;
 }
 
 nav ul {
     list-style: none;
     display: flex;
-    justify-content: center;
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
 nav ul li {
-    margin: 0 10px; /* Reduced margin to avoid excessive space between items */
+    margin-left: 20px; /* Space between menu items */
 }
 
 nav ul li a {
@@ -34,13 +54,14 @@ nav ul li a {
     background-color: #2e2e8f;
     border-radius: 20px;
     transition: background-color 0.3s ease;
-    white-space: nowrap; /* Prevents text from wrapping */
-    display: block; /* Ensures each link has its own block with the rounded background */
+    white-space: nowrap;
+    display: block;
 }
 
 nav ul li a:hover {
     background-color: #1e1e8f;
 }
+
 
 
 main {

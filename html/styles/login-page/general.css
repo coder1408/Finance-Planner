@@ -1,14 +1,12 @@
 body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background-color: #f3f7fa;
+    background-image: linear-gradient(180deg, #415A77, black);
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('login-bg.jpg');
-    background-size: cover;
 }
 
 .container {
@@ -23,7 +21,7 @@ body {
 
 .welcome-section {
     width: 50%;
-    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    background: linear-gradient(45deg, black, #415A77);
     color: white;
     padding: 40px;
     display: flex;
