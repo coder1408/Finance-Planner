@@ -1,7 +1,7 @@
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(180deg, #ffffff, #999999);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background: linear-gradient(180deg, white, rgb(56, 55, 55));
     color: #2e2e8f;
     display: flex;
     flex-direction: column;
@@ -114,7 +114,7 @@ button {
 }
 
 .signup:hover {
-    background-color: #43479a;
+    background-color: #131cc5;
 }
 
 .login {
@@ -129,7 +129,7 @@ button {
 footer {
     text-align: center; /* Center the text and image */
     font-size: 14px;
-    color: #333;
+    color: white;
     padding-bottom: 20px;
     display: flex;
     justify-content: center; /* Center the content horizontally */
