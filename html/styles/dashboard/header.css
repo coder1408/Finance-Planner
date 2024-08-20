@@ -72,6 +72,13 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
+
+  &:active {
+  background-color: #34c3a1;
+  transform: scale(0.98); /* Slightly shrink the button */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce the shadow */
+  }
+  
 }
 
 .user-info{

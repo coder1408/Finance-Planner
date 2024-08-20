@@ -61,9 +61,5 @@
   transform: scale(0.98); /* Slightly shrink the button */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce the shadow */
   }
-  &:focus {
-  outline: none;
-  box-shadow: 0 0 10px #42f5d7;
-  }
 }
 
