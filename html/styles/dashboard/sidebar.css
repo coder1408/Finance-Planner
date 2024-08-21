@@ -16,10 +16,11 @@
 .wlcm-text {
   margin-left: 10px;
   padding: 10px;
-  font-size: 45px;
+  font-size: 40px;
   color: #000;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: helvetica;
   margin-top: 25px;
+  font-weight: bold;
 }
 
 .menu {
