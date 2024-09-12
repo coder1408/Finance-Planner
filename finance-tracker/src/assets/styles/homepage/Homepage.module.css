@@ -1,0 +1,153 @@
+/* styles.module.css */
+
+/* General Styles */
+.body {
+    margin: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background: linear-gradient(180deg, white, rgb(56, 55, 55));
+    color: #2e2e8f;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header Section */
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: transparent;
+}
+
+.logoSection {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.logo {
+    width: 60px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.companyName {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2e2e8f;
+}
+
+/* Navigation Menu */
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+.navButton {
+    color: white;
+    background-color: #2e2e8f;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.navButton:hover {
+    background-color: #1e1e8f;
+}
+
+/* Main Content Area */
+main {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.heroSection {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+.imageContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.heroImage {
+    max-width: 100%;
+    height: auto;
+}
+
+.heroTitle {
+    font-size: 28px;
+    margin: 10px 0;
+    color: #2e2e8f;
+    line-height: 1.5;
+    font-weight: bolder;
+}
+
+/* Buttons Section */
+.buttons {
+    margin-top: 20px;
+}
+
+.signupButton, .loginButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signupButton {
+    background-color: #5a67d8;
+    color: white;
+    margin-right: 10px;
+}
+
+.signupButton:hover {
+    background-color: #131cc5;
+}
+
+.loginButton {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.loginButton:hover {
+    background-color: #1e40af;
+}
+
+/* Footer Section */
+footer {
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+footer p {
+    margin: 0;
+}
+
+.contactIcon {
+    width: 30px;
+    height: auto;
+}
