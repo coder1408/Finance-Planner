@@ -9,7 +9,7 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="homepage-body">
       {/* Header Section */}
       <header>
         <div className={styles.headerContent}>

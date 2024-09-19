@@ -1,5 +1,5 @@
 /* LoginPage.module.css */
-body {
+.login-body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   background-image: linear-gradient(180deg, #415A77, black);
   margin: 0;

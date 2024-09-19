@@ -7,7 +7,7 @@ import user from "../assets/images/user.png";
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="dashboard-body">
       {/* Header Section */}
       <header className={headerStyles.header}>
         <div className={headerStyles.leftSection}>

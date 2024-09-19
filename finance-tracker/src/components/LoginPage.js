@@ -31,94 +31,93 @@ const LoginPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.welcomeSection}>
-        <div className={styles.logo}>
-          <img src={logo} alt="PrimePlan Logo" />
-          <span className={styles.companyName}>PrimePlan Financials</span>
+    <div className="login-body">
+      <div className={styles.container}>
+        <div className={styles.welcomeSection}>
+          <div className={styles.logo}>
+            <img src={logo} alt="PrimePlan Logo" />
+            <span className={styles.companyName}>PrimePlan Financials</span>
+          </div>
+          <h1>Hello, welcome!</h1>
+          <p>
+            Get started on building your wealth and managing your finances with
+            us!
+          </p>
         </div>
-        <h1>Hello, welcome!</h1>
-        <p>
-          Get started on building your wealth and managing your finances with
-          us!
-        </p>
-      </div>
-
-      <div className={styles.loginSection}>
-        <form onSubmit={handleSubmit}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="email">Email address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="name@mail.com"
-              required
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              placeholder="********"
-              required
-            />
-          </div>
-          <div className={styles.options}>
-            <label>
+        <div className={styles.loginSection}>
+          <form onSubmit={handleSubmit}>
+            <div className={styles.inputGroup}>
+              <label htmlFor="email">Email address</label>
               <input
-                type="checkbox"
-                name="remember"
-                checked={formData.remember}
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
                 onChange={handleInputChange}
-              />{" "}
-              Remember me
-            </label>
-            <a href="#" className={styles.forgotPassword}>
-              Forgot password?
+                placeholder="name@mail.com"
+                required
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="********"
+                required
+              />
+            </div>
+            <div className={styles.options}>
+              <label>
+                <input
+                  type="checkbox"
+                  name="remember"
+                  checked={formData.remember}
+                  onChange={handleInputChange}
+                />{" "}
+                Remember me
+              </label>
+              <a href="#" className={styles.forgotPassword}>
+                Forgot password?
+              </a>
+            </div>
+            <div className={styles.actions}>
+              <button
+                type="submit"
+                className={`${styles.btn} ${styles.loginBtn}`}
+              >
+                Login
+              </button>
+              <button
+                type="button"
+                className={`${styles.btn} ${styles.signupBtn}`}
+                onClick={() => navigate("/signup")} // Redirect to Sign up page
+              >
+                Sign up
+              </button>
+            </div>
+          </form>
+          <div className={styles.googleSignin}>
+            <button type="button" className={`${styles.btn} ${styles.googleBtn}`}>
+              <img src={googleIcon} alt="Google Logo" />
+              Sign in with Google
+            </button>
+          </div>
+          <div className={styles.socialMedia}>
+            <span>Follow us:</span>
+            <a href="#">
+              <img src={facebookIcon} alt="Facebook" />
+            </a>
+            <a href="#">
+              <img src={twitterIcon} alt="Twitter" />
+            </a>
+            <a href="#">
+              <img src={instaIcon} alt="Instagram" />
             </a>
           </div>
-          <div className={styles.actions}>
-            <button
-              type="submit"
-              className={`${styles.btn} ${styles.loginBtn}`}
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              className={`${styles.btn} ${styles.signupBtn}`}
-              onClick={() => navigate("/signup")} // Redirect to Sign up page
-            >
-              Sign up
-            </button>
-          </div>
-        </form>
-
-        <div className={styles.googleSignin}>
-          <button type="button" className={`${styles.btn} ${styles.googleBtn}`}>
-            <img src={googleIcon} alt="Google Logo" />
-            Sign in with Google
-          </button>
-        </div>
-
-        <div className={styles.socialMedia}>
-          <span>Follow us:</span>
-          <a href="#">
-            <img src={facebookIcon} alt="Facebook" />
-          </a>
-          <a href="#">
-            <img src={twitterIcon} alt="Twitter" />
-          </a>
-          <a href="#">
-            <img src={instaIcon} alt="Instagram" />
-          </a>
         </div>
       </div>
     </div>
