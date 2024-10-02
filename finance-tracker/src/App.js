@@ -4,6 +4,7 @@ import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import Dashboard from "./components/Dashboard";
 import Homepage from "./components/Homepage";
+import ExpenseTracker from "./components/ExpenseTracker"; // Keep this import if you're going to use it
 
 const App = () => {
   return (
@@ -13,6 +14,8 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/expense-tracker" element={<ExpenseTracker />} />{" "}
+        {/* Add this line */}
       </Routes>
     </Router>
   );
