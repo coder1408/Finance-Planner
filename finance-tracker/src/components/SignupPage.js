@@ -35,7 +35,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="signup-style">
+    <div className={styles.body}>
       <div className={styles.container}>
         <div className={styles.welcomeSection}>
           <div className={styles.logo}>

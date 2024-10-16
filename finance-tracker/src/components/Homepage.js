@@ -9,97 +9,96 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="homepage-body">
-      {/* Header Section */}
-      <header>
-        <div className={styles.headerContent}>
-          <div className={styles.logoSection}>
-            <img src={logo} alt="PrimePlan Logo" className={styles.logo} />
-            <span className={styles.companyName}>PrimePlan Financials</span>
+      <div classname = {styles.body}>
+        <header>
+          <div className={styles.headerContent}>
+            <div className={styles.logoSection}>
+              <img src={logo} alt="PrimePlan Logo" className={styles.logo} />
+              <span className={styles.companyName}>PrimePlan Financials</span>
+            </div>
+            <nav>
+              <ul>
+                <li>
+                  <button
+                    onClick={() => navigate("/expense-tracker")}
+                    className={styles.navButton}
+                  >
+                    Expense Tracker
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => navigate("/budget-tools")}
+                    className={styles.navButton}
+                  >
+                    Budgeting Tools
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => navigate("/investment-guide")}
+                    className={styles.navButton}
+                  >
+                    Investment Guide
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => navigate("/about")}
+                    className={styles.navButton}
+                  >
+                    About
+                  </button>
+                </li>
+                <li>
+                  <button className={styles.navButton}>Support</button>
+                </li>
+              </ul>
+            </nav>
           </div>
-          <nav>
-            <ul>
-              <li>
-                <button
-                  onClick={() => navigate("/expense-tracker")}
-                  className={styles.navButton}
-                >
-                  Expense Tracker
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => navigate("/budget-tools")}
-                  className={styles.navButton}
-                >
-                  Budgeting Tools
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => navigate("/investment-guide")}
-                  className={styles.navButton}
-                >
-                  Investment Guide
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => navigate("/about")}
-                  className={styles.navButton}
-                >
-                  About
-                </button>
-              </li>
-              <li>
-                <button className={styles.navButton}>Support</button>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Section */}
-      <main>
-        <div className={styles.heroSection}>
-          <div className={styles.imageContainer}>
-            <img
-              src={homeImage}
-              alt="Dashboard illustration"
-              className={styles.heroImage}
-            />
+        {/* Main Section */}
+        <main>
+          <div className={styles.heroSection}>
+            <div className={styles.imageContainer}>
+              <img
+                src={homeImage}
+                alt="Dashboard illustration"
+                className={styles.heroImage}
+              />
+            </div>
+            <h1 className={styles.heroTitle}>
+              Master your money,
+              <br /> master your future.
+            </h1>
+            <div className={styles.buttons}>
+              <button
+                type="button"
+                className={styles.signupButton}
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </button>
+              <button
+                className={styles.loginButton}
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </button>
+            </div>
           </div>
-          <h1 className={styles.heroTitle}>
-            Master your money,
-            <br /> master your future.
-          </h1>
-          <div className={styles.buttons}>
-            <button
-              type="button"
-              className={styles.signupButton}
-              onClick={() => navigate("/signup")}
-            >
-              Sign Up
-            </button>
-            <button
-              className={styles.loginButton}
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </button>
-          </div>
-        </div>
-      </main>
+        </main>
 
-      {/* Footer Section */}
-      <footer>
-        <p>
-          Have questions or need support?
-          <br /> Contact us for prompt assistance.
-        </p>
-        <img src={gmailIcon} alt="Gmail icon" className={styles.contactIcon} />
-      </footer>
-    </div>
+        {/* Footer Section */}
+        <footer>
+          <p>
+            Have questions or need support?
+            <br /> Contact us for prompt assistance.
+          </p>
+          <img src={gmailIcon} alt="Gmail icon" className={styles.contactIcon} />
+        </footer>
+      </div>
   );
 };
 

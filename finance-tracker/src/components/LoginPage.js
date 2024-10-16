@@ -31,7 +31,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-body">
+    <div className = {styles.body}>
       <div className={styles.container}>
         <div className={styles.welcomeSection}>
           <div className={styles.logo}>
