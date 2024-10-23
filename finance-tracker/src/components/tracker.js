@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styles from "../assets/styles/emicalculator/emi.css"; // Import your CSS module
-import '../App.css'; // Make sure this path is correct
+import React, { useState } from "react";
+import styles from "../assets/styles/emicalculator/emi.module.css"; // Adjust this path if necessary
+import "../App.css"; // Make sure this path is correct
 
 const Tracker = () => {
   const [loanAmount, setLoanAmount] = useState(50000);
@@ -11,24 +11,29 @@ const Tracker = () => {
   // Function to calculate EMI
   const calculateEMI = () => {
     const principal = loanAmount;
-    const monthlyInterestRate = (interestRate / 100) / 12;
+    const monthlyInterestRate = interestRate / 100 / 12;
     const totalPayments = years * 12;
 
-    const emi = (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalPayments)) / 
-                (Math.pow(1 + monthlyInterestRate, totalPayments) - 1);
-    
-    setMonthlyPayment(emi.toFixed(2));  // Set the result to 2 decimal places
+    const emi =
+      (principal *
+        monthlyInterestRate *
+        Math.pow(1 + monthlyInterestRate, totalPayments)) /
+      (Math.pow(1 + monthlyInterestRate, totalPayments) - 1);
+
+    setMonthlyPayment(emi.toFixed(2)); // Set the result to 2 decimal places
   };
 
   return (
-    <div className={styles.body}>x
+    <div className={styles.body}>
       <div className={styles.calculatorContainer}>
         <h1>Loan Tracker & Calculator</h1>
 
         <div className={styles.calculatorItem}>
           <div className={styles.sliderContainer}>
             <label>Amount you need:</label>
-            <span className={styles.outputValue}>${loanAmount.toLocaleString()}</span>
+            <span className={styles.outputValue}>
+              ${loanAmount.toLocaleString()}
+            </span>
             <input
               type="range"
               min="50000"
@@ -45,7 +50,7 @@ const Tracker = () => {
             <input
               type="range"
               min="1"
-              max="5"
+              max="30" // Adjust max years if necessary
               value={years}
               className={styles.slider}
               onChange={(e) => setYears(Number(e.target.value))}
@@ -66,7 +71,9 @@ const Tracker = () => {
             />
           </div>
 
-          <button onClick={calculateEMI} className={styles.calculateButton}>Calculate</button>
+          <button onClick={calculateEMI} className={styles.calculateButton}>
+            Calculate
+          </button>
 
           {/* Display the result */}
           {monthlyPayment && (
