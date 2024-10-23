@@ -20,7 +20,7 @@ const Homepage = () => {
               <ul>
                 <li>
                   <button
-                    onClick={() => navigate("/expense-tracker")}
+                    onClick={() => navigate("/signup")}
                     className={styles.navButton}
                   >
                     Expense Tracker
@@ -28,7 +28,7 @@ const Homepage = () => {
                 </li>
                 <li>
                   <button
-                    onClick={() => navigate("/budget-tools")}
+                    onClick={() => navigate("/signup")}
                     className={styles.navButton}
                   >
                     Budgeting Tools
@@ -36,7 +36,7 @@ const Homepage = () => {
                 </li>
                 <li>
                   <button
-                    onClick={() => navigate("/investment-guide")}
+                    onClick={() => navigate("/signup")}
                     className={styles.navButton}
                   >
                     Investment Guide
