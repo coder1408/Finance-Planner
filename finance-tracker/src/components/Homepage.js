@@ -51,7 +51,12 @@ const Homepage = () => {
                   </button>
                 </li>
                 <li>
-                  <button className={styles.navButton}>Support</button>
+                <button
+                    onClick={() => navigate("/FAQ's")}
+                    className={styles.navButton}
+                  >
+                    FAQ
+                  </button>
                 </li>
               </ul>
             </nav>

@@ -4,12 +4,12 @@ import Icon from "../assets/images/logo.png";
 
 const About = () => {
   return (
-    <div className="bod">
+    <div className="body">
         <div className="about-container">
         <img src={Icon} alt="icon" className= "icon" />
-        <h1 className="about-title">About PrimaPlan Financials</h1>
+        <h1 className="about-title">About PrimePlan Financials</h1>
         <p className="about-text">
-            PrimaPlan Financials is your personal financial planner and tracker designed to help you make well-informed decisions regarding loans, budgeting, and expenses. With a user-friendly interface and a range of powerful tools, PrimaPlan Financials offers:
+            PrimePlan Financials is your personal financial planner and tracker designed to help you make well-informed decisions regarding loans, budgeting, and expenses. With a user-friendly interface and a range of powerful tools, PrimaPlan Financials offers:
         </p>
         <ul className="about-list">
             <li><strong>Loan Insights:</strong> Detailed loan management features that empower you to make knowledgeable decisions about borrowing, repayment, and interest.</li>
@@ -17,7 +17,7 @@ const About = () => {
             <li><strong>Financial Guidance:</strong> Assistance in making smarter financial decisions, with insights to guide you toward better financial health.</li>
         </ul>
         <p className="about-text">
-            PrimaPlan Financials is crafted to give you control over your finances with clarity and ease, providing a seamless experience to ensure your financial well-being.
+            PrimePlan Financials is crafted to give you control over your finances with clarity and ease, providing a seamless experience to ensure your financial well-being.
         </p>
         </div>
     </div>
