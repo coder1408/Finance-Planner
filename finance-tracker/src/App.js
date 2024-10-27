@@ -9,8 +9,29 @@ import Tracker from "./components/tracker"; // Keep this import if you're going 
 import About from "./components/about";
 import FAQ from "./components/FAQ's";
 import BudgetAllocation from "./components/Budget";
+import Invoice from "./components/Invoice"; // Import the Invoice component
 
 const App = () => {
+  // Example data for the Invoice component
+  const user = {
+    name: "John Doe",
+    email: "john@example.com",
+    phone: "123-456-7890",
+  };
+
+  const transactions = [
+    { category: "Food", amount: 200 },
+    { category: "Transportation", amount: 50 },
+    { category: "Entertainment", amount: 100 },
+  ];
+
+  const income = [
+    { source: "Salary", amount: 1500 },
+    { source: "Freelancing", amount: 300 },
+  ];
+
+  const savings = 250; // Total savings added
+
   return (
     <Router>
       <Routes>
@@ -22,8 +43,19 @@ const App = () => {
         <Route path="/expense-tracker" element={<ExpenseTracker />} />
         <Route path="/FAQ's" element={<FAQ />} />
         <Route path="/Budget" element={<BudgetAllocation />} />
-        <Route path="/tracker" element={<Tracker />} />{" "}
-        {/* Add this line */}
+        <Route path="/tracker" element={<Tracker />} />
+        <Route
+          path="/invoice"
+          element={
+            <Invoice
+              user={user}
+              transactions={transactions}
+              income={income}
+              savings={savings}
+              billingPeriod="September 1 - September 30"
+            />
+          }
+        />
       </Routes>
     </Router>
   );

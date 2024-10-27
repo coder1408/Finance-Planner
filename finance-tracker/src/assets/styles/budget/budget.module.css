@@ -1,0 +1,160 @@
+/* Global styles should be in a separate global CSS file */
+
+.budgetContainer {
+  width: 100%;
+  max-width: 650px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.budgetContainer:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.budgetContainer h2 {
+  font-size: 28px;
+  text-align: center;
+  color: #1b5e20;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
+}
+
+.incomeInput {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.incomeInput label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: bold;
+}
+
+.incomeInputField {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #a5d6a7;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f1f8e9;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.incomeInputField:focus {
+  border-color: #66bb6a;
+  background-color: #ffffff;
+}
+
+.expenseForm {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.formGroup {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.expenseCategory,
+.expenseAmount {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #a5d6a7;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f1f8e9;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.expenseCategory:focus,
+.expenseAmount:focus {
+  border-color: #66bb6a;
+  background-color: #ffffff;
+}
+
+.addExpenseBtn {
+  padding: 12px 24px;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.addExpenseBtn:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+}
+
+.allocationSection {
+  width: 100%;
+  margin-bottom: 25px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.allocationItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+  color: #444;
+}
+
+.allocationItem span {
+  font-size: 16px;
+}
+
+.removeExpenseBtn {
+  padding: 6px 12px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.removeExpenseBtn:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+.summary {
+  width: 100%;
+  margin-top: 25px;
+  text-align: center;
+  background-color: #f4f9f4;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.summary h3 {
+  font-size: 22px;
+  margin: 0 0 12px;
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.summary p {
+  margin: 8px 0;
+  font-size: 18px;
+  color: #424242;
+}
