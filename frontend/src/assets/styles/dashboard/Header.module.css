@@ -25,6 +25,7 @@
   height: 80px !important;
   width: auto !important;
   margin-left: 50px;
+  border-radius: 50%;
 }
 
 .logo:hover {

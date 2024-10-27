@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from "../assets/styles/emicalculator/emi.css"; 
+import styles from "../assets/styles/emicalculator/emi.module.css"; 
 import '../App.css'; 
 const Tracker = () => {
   const [loanAmount, setLoanAmount] = useState(50000);

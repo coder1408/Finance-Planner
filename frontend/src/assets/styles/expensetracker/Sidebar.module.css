@@ -1,66 +1,66 @@
 /* styles.module.css */
 
 .sidebar {
-  position: fixed;
-  top: 125px;
-  left: 0;
-  bottom: 0;
-  background-color: white;
-  width: 300px;
-  z-index: 200;
-  padding-top: 10px;
-  border-right: 2px solid transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.welcomeText {
-  margin-left: 10px;
-  padding: 10px;
-  font-size: 40px;
-  color: #000;
-  margin-top: 25px;
-  font-weight: bold;
-}
-
-.menu {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 0;
-}
-
-.menuItem {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  margin: 15px 0;
-  margin-left: 20px;
-}
-
-.menuButton {
-  width: auto;
-  padding: 15px;
-  font-size: 25px;
-  color: #000;
-  background-color: transparent;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-  text-align: center;
-}
-
-.menuButton:hover {
-  background-color: lightgray;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.menuButton:active {
-  background-color: gray;
-  transform: scale(0.98);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+    position: fixed;
+    top: 125px;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    width: 300px;
+    z-index: 200;
+    padding-top: 10px;
+    border-right: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .welcomeText {
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 40px;
+    color: #000;
+    margin-top: 25px;
+    font-weight: bold;
+  }
+  
+  .menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 0;
+  }
+  
+  .menuItem {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin: 15px 0;
+    margin-left: 20px;
+  }
+  
+  .menuButton {
+    width: auto;
+    padding: 15px;
+    font-size: 25px;
+    color: #000;
+    background-color: transparent;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    text-align: center;
+  }
+  
+  .menuButton:hover {
+    background-color: lightgray;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .menuButton:active {
+    background-color: gray;
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
