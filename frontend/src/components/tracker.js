@@ -35,7 +35,7 @@ const Tracker = () => {
   
 
   return (
-    <div className={styles.body}>x
+    <div className={styles.body}>
       <div className={styles.calculatorContainer}>
         <h1>Loan Tracker & Calculator</h1>
 
