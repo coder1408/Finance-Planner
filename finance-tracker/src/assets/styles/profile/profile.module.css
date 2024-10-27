@@ -1,0 +1,393 @@
+/* General Container Styles */
+.container {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+.sidebar:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Content Styles */
+.content {
+  flex: 1;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Tab Button Styles */
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+.tabButton:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.tabButton.active {
+  background: #e2e8f0;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Profile Section Styles */
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profileHeader {
+  display: flex;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.profileImageContainer {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.imageUpload {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #0284c7;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.imageUpload:hover {
+  background: #0369a1;
+}
+
+.cameraIcon {
+  color: white;
+  width: 20px;
+  height: 20px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.profileInfo {
+  flex: 1;
+}
+
+.userName {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.editButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 6px;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.editButton:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* User Meta Styles */
+.userMeta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+}
+
+/* Edit Form Styles */
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editInput {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+}
+
+.editInput:focus {
+  border: 1px solid #0284c7;
+  outline: none;
+}
+
+/* Edit Actions Styles */
+.editActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.saveButton, .cancelButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.saveButton {
+  background: #0284c7;
+  color: white;
+}
+
+.saveButton:hover {
+  background: #0369a1;
+}
+
+.cancelButton {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.cancelButton:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Bio Section Styles */
+.bioSection {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: background 0.3s ease;
+}
+
+.bioSection:hover {
+  background: #e2e8f0;
+}
+
+.bioSection h3 {
+  color: #0f172a;
+  margin-bottom: 1rem;
+}
+
+.bioEdit {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+/* Security and Preferences Section */
+.securitySection,
+.preferencesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.settingsGroup {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: background 0.3s ease;
+}
+
+.settingsGroup:hover {
+  background: #e2e8f0;
+}
+
+.settingsGroup h3 {
+  color: #0f172a;
+  margin-bottom: 1.5rem;
+}
+
+/* Password Form Styles */
+.passwordForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+}
+
+.input:focus {
+  border: 1px solid #0284c7;
+  outline: none;
+}
+
+/* Update and Enable Button Styles */
+.updateButton, .enableButton {
+  padding: 0.75rem 1.5rem;
+  background: #0284c7;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: 500;
+}
+
+.updateButton:hover, .enableButton:hover {
+  background: #0369a1;
+}
+
+/* Two Factor Section Styles */
+.twoFactorSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Checkbox Group Styles */
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+/* Select Dropdown Styles */
+.select {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 200px;
+  transition: border 0.3s ease;
+}
+
+.select:focus {
+  border: 1px solid #0284c7;
+  outline: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Stack sidebar and content vertically */
+    margin: 1rem; /* Adjust margin for smaller screens */
+  }
+
+  .sidebar {
+    width: 100%; /* Full width for sidebar on small screens */
+    margin-bottom: 1rem; /* Space between sidebar and content */
+  }
+
+  .content {
+    width: 100%; /* Full width for content on small screens */
+    padding: 1rem; /* Adjust padding for smaller screens */
+  }
+
+  .tabButton {
+    padding: 0.5rem 0.75rem; /* Adjust tab button padding */
+  }
+
+  .profileHeader {
+    flex-direction: column; /* Stack profile image and info vertically */
+    align-items: center; /* Center align the profile image and info */
+  }
+
+  .profileImageContainer {
+    width: 100px; /* Adjust profile image size */
+    height: 100px; /* Adjust profile image size */
+  }
+
+  .userName {
+    font-size: 1.5rem; /* Adjust font size for smaller screens */
+  }
+
+  .editButton {
+    font-size: 0.875rem; /* Adjust font size for edit button */
+  }
+
+  .bioEdit {
+    min-height: 80px; /* Adjust bio section height */
+  }
+
+  .passwordForm {
+    max-width: 100%; /* Full width for password form on small screens */
+  }
+}
