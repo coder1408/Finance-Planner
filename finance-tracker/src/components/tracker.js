@@ -7,9 +7,30 @@ const Tracker = () => {
   const [years, setYears] = useState(5);
   const [interestRate, setInterestRate] = useState(10.5);
   const [monthlyPayment, setMonthlyPayment] = useState(null);
+  const [error, setError] = useState("");
+
+  // Function to validate inputs
+  const validateInputs = () => {
+    if (loanAmount < 50000 || loanAmount > 4000000) {
+      setError("Loan amount must be between $50,000 and $4,000,000.");
+      return false;
+    }
+    if (years < 1 || years > 30) {
+      setError("Loan duration must be between 1 and 30 years.");
+      return false;
+    }
+    if (interestRate < 1 || interestRate > 20) {
+      setError("Interest rate must be between 1% and 20%.");
+      return false;
+    }
+    setError(""); // Clear error message if inputs are valid
+    return true;
+  };
 
   // Function to calculate EMI
   const calculateEMI = () => {
+    if (!validateInputs()) return; // Validate inputs before calculating
+
     const principal = loanAmount;
     const monthlyInterestRate = interestRate / 100 / 12;
     const totalPayments = years * 12;
@@ -23,44 +44,63 @@ const Tracker = () => {
     setMonthlyPayment(emi.toFixed(2)); // Set the result to 2 decimal places
   };
 
+  const formatCurrency = (value) => {
+    return `$${value.toLocaleString()}`;
+  };
+
   return (
     <div className={styles.body}>
       <div className={styles.calculatorContainer}>
         <h1>Loan Tracker & Calculator</h1>
-
+        {error && <div className={styles.error}>{error}</div>}{" "}
+        {/* Error Message */}
         <div className={styles.calculatorItem}>
+          {/* Loan Amount Slider */}
           <div className={styles.sliderContainer}>
-            <label>Amount you need:</label>
+            <label htmlFor="loan-amount">Amount you need:</label>
             <span className={styles.outputValue}>
-              ${loanAmount.toLocaleString()}
+              {formatCurrency(loanAmount)}
             </span>
             <input
+              id="loan-amount"
               type="range"
               min="50000"
               max="4000000"
               value={loanAmount}
               className={styles.slider}
               onChange={(e) => setLoanAmount(Number(e.target.value))}
+              aria-valuemin="50000"
+              aria-valuemax="4000000"
+              aria-valuenow={loanAmount}
+              aria-label="Loan Amount"
             />
           </div>
 
+          {/* Loan Duration Slider */}
           <div className={styles.sliderContainer}>
-            <label>For:</label>
+            <label htmlFor="loan-years">For:</label>
             <span className={styles.outputValue}>{years} years</span>
             <input
+              id="loan-years"
               type="range"
               min="1"
               max="30" // Adjust max years if necessary
               value={years}
               className={styles.slider}
               onChange={(e) => setYears(Number(e.target.value))}
+              aria-valuemin="1"
+              aria-valuemax="30"
+              aria-valuenow={years}
+              aria-label="Loan Duration in Years"
             />
           </div>
 
+          {/* Interest Rate Slider */}
           <div className={styles.sliderContainer}>
-            <label>Interest rate:</label>
+            <label htmlFor="interest-rate">Interest rate:</label>
             <span className={styles.outputValue}>{interestRate}%</span>
             <input
+              id="interest-rate"
               type="range"
               min="1"
               max="20"
@@ -68,9 +108,14 @@ const Tracker = () => {
               value={interestRate}
               className={styles.slider}
               onChange={(e) => setInterestRate(Number(e.target.value))}
+              aria-valuemin="1"
+              aria-valuemax="20"
+              aria-valuenow={interestRate}
+              aria-label="Interest Rate"
             />
           </div>
 
+          {/* Calculate Button */}
           <button onClick={calculateEMI} className={styles.calculateButton}>
             Calculate
           </button>
@@ -78,7 +123,7 @@ const Tracker = () => {
           {/* Display the result */}
           {monthlyPayment && (
             <div className={styles.result}>
-              <h2>Monthly Payment: ${monthlyPayment}</h2>
+              <h2>Monthly Payment: {formatCurrency(monthlyPayment)}</h2>
             </div>
           )}
         </div>

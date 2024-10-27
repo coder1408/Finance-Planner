@@ -1,0 +1,181 @@
+.container {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.invoiceCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.cardContent {
+  padding: 1.5rem;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+.invoiceNumber {
+  padding: 0.25rem 0.75rem;
+  background-color: #F3F4F6;
+  color: #1F2937;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+.metadata {
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.userSection {
+  background-color: #F9FAFB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.sectionTitle {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.userInfo {
+  display: grid;
+  gap: 0.5rem;
+  color: #4B5563;
+}
+
+.expensesList {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.expenseItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.categoryIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: #3B82F6;
+}
+
+.percentageText {
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-right: 1rem;
+}
+
+.amountText {
+  font-weight: 500;
+}
+
+.divider {
+  border-top: 1px solid #E5E7EB;
+  margin: 1.5rem 0;
+}
+
+.incomeItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.overviewItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.overviewLabel {
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+.expenseAmount {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #EF4444;
+}
+
+.incomeAmount {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #10B981;
+}
+
+.balanceAmount {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.balancePositive {
+  color: #10B981;
+}
+
+.balanceNegative {
+  color: #EF4444;
+}
+
+.savingsSection {
+  background-color: #F9FAFB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.savingsAmount {
+  color: #10B981;
+  font-weight: 500;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-top: 1.5rem;
+}
+
+.noData {
+  font-size: 0.875rem;
+  color: #6B7280;
+}
