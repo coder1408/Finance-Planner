@@ -1,0 +1,110 @@
+.body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8; /* Softer background for a calm effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.calculatorContainer {
+    background-color: #ffffff;
+    padding: 40px; /* Increased padding for a more spacious feel */
+    border-radius: 15px; /* Slightly larger border radius for softer corners */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Deeper shadow for a lifted effect */
+    width: 700px; /* Slightly wider for more content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.h1 {
+    text-align: center;
+    margin-bottom: 30px; /* More space between heading and content */
+    color: #2c3e50; /* Darker color for better contrast */
+    font-size: 28px; /* Larger font size for emphasis */
+}
+
+.calculatorItem {
+    width: 100%;
+}
+
+.sliderContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 25px; /* More space between slider sections */
+}
+
+label {
+    font-size: 18px;
+    margin-bottom: 8px; /* More space between label and input */
+    color: #34495e; /* Slightly different color for a subtle contrast */
+}
+
+.input[type="range"] {
+    -webkit-appearance: none;
+    width: 90%; /* Increased width for better usability */
+    height: 10px; /* Thicker track for easier interaction */
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    outline: none;
+    margin: 12px 0; /* More space around the slider */
+}
+
+.input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px; /* Larger thumb for easier dragging */
+    height: 24px;
+    background-color: #2980b9; /* Color change for better visibility */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.input[type="range"]::-webkit-slider-thumb:hover {
+    background-color: #3498db; /* Lighter color on hover */
+}
+
+.outputValue {
+    background-color: #d1ff4d;
+    padding: 10px 15px; /* Increased padding for a more comfortable feel */
+    border-radius: 25px; /* More rounded corners for a modern look */
+    font-size: 20px; /* Slightly larger font size for better readability */
+    color: #000;
+    text-align: center;
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.button {
+    background-color: #bfff00;
+    border: none;
+    padding: 14px 28px; /* Increased padding for a more prominent button */
+    border-radius: 25px; /* More rounded corners for consistency */
+    font-size: 18px; /* Larger font size for better accessibility */
+    color: #000;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Added transform for button press effect */
+}
+
+.button:hover {
+    background-color: #a5e600;
+}
+
+.button:active {
+    background-color: #90d400;
+    transform: scale(0.95); /* Slight scale down on press for interaction feedback */
+}
+
+.result {
+    margin-top: 30px; /* More space before result display */
+}
+
+.result h2 {
+    color: #2c3e50;
+    font-size: 22px; /* Larger font size for result emphasis */
+}
