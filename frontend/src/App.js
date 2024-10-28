@@ -11,6 +11,7 @@ import FAQ from "./components/FAQ's";
 import BudgetAllocation from "./components/Budget";
 import Invoice from "./components/Invoice"; // Import the Invoice component
 import Profile from "./components/Profile"; // Import the Profile component
+import Onboarding from "./components/FinancialOnboarding";
 import { UserProvider } from "./components/UserContext";
 
 const App = () => {
@@ -61,6 +62,7 @@ const App = () => {
           />
           <Route path="/profile" element={<Profile />} />{" "}
           {/* Add profile route here */}
+          <Route path="/Onboarding" element={<Onboarding />} />
         </Routes>
       </Router>
     </UserProvider>
