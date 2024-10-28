@@ -65,21 +65,22 @@
   margin-bottom: 20px;
 }
 
-form {
+/* Scoped form styles to BudgetTracker component */
+.BudgetTracker_form {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-form input,
-form select {
+.BudgetTracker_form input,
+.BudgetTracker_form select {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
   flex: 1;
 }
 
-form button {
+.BudgetTracker_form button {
   padding: 8px 16px;
   background-color: #28a745;
   color: white;
@@ -88,7 +89,7 @@ form button {
   cursor: pointer;
 }
 
-form button:hover {
+.BudgetTracker_form button:hover {
   background-color: #218838;
 }
 
@@ -233,7 +234,7 @@ form button:hover {
     gap: 20px;
   }
 
-  form {
+  .BudgetTracker_form {
     flex-direction: column;
   }
 
@@ -257,4 +258,3 @@ form button:hover {
     width: 100%; /* Make navigation buttons full width */
   }
 }
-
