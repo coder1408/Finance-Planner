@@ -52,7 +52,7 @@ const Homepage = () => {
                 </li>
                 <li>
                   <button
-                    onClick={() => navigate("/about")}
+                    onClick={() => navigate("/FAQ's")}
                     className={styles.navButton}
                   >
                   Support
