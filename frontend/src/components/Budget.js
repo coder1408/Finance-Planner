@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts'; // Import Recharts components
 import styles from '../assets/styles/budget/budget.module.css';
 
 const BudgetTracker = () => {
@@ -64,17 +65,11 @@ const BudgetTracker = () => {
     }
   };
 
-  // Generate bar chart data points
-  const generateBarChart = () => {
-    const chartHeight = 200;
-    const maxAmount = Math.max(...Object.values(categoryTotals));
-
-    return Object.entries(categoryTotals).map(([category, amount]) => ({
-      category,
-      height: (amount / maxAmount) * chartHeight,
-      amount
-    }));
-  };
+  // Prepare data for the bar chart
+  const chartData = Object.entries(categoryTotals).map(([category, amount]) => ({
+    category,
+    amount
+  }));
 
   return (
       <div className={styles.container}>
@@ -122,7 +117,7 @@ const BudgetTracker = () => {
           {selectedView === 'expenses' && (
               <div className={styles.section}>
                 <h2>Add Expense</h2>
-                <form onSubmit={handleAddExpense}>
+                <form className={styles.BudgetTracker_form} onSubmit={handleAddExpense}>
                   <select name="category" required>
                     <option value="">Select Category</option>
                     {categories.map(category => (
@@ -160,7 +155,7 @@ const BudgetTracker = () => {
           {selectedView === 'categories' && (
               <div className={styles.section}>
                 <h2>Manage Categories</h2>
-                <form onSubmit={handleAddCategory}>
+                <form className={styles.BudgetTracker_form} onSubmit={handleAddCategory}>
                   <input
                       type="text"
                       value={newCategory}
@@ -186,7 +181,7 @@ const BudgetTracker = () => {
           {selectedView === 'goals' && (
               <div className={styles.section}>
                 <h2>Financial Goals</h2>
-                <form onSubmit={handleAddGoal}>
+                <form className={styles.BudgetTracker_form} onSubmit={handleAddGoal}>
                   <select
                       value={newGoal.category}
                       onChange={(e) => setNewGoal({...newGoal, category: e.target.value})}
@@ -254,19 +249,19 @@ const BudgetTracker = () => {
 
                 <div className={styles.barChart}>
                   <h3>Spending by Category</h3>
-                  <div className={styles.chartContainer}>
-                    {generateBarChart().map(({ category, height, amount }) => (
-                        <div key={category} className={styles.barContainer}>
-                          <div
-                              className={styles.bar}
-                              style={{ height: `${height}px` }}
-                          >
-                            <span className={styles.barAmount}>${amount.toFixed(0)}</span>
-                          </div>
-                          <span className={styles.barLabel}>{category}</span>
-                        </div>
-                    ))}
-                  </div>
+                  <BarChart
+                      width={600}
+                      height={300}
+                      data={chartData}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="category" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="amount" fill="#8884d8" />
+                  </BarChart>
                 </div>
               </div>
           )}
