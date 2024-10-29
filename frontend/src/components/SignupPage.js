@@ -6,6 +6,7 @@ import googleIcon from "../assets/images/google.png";
 import facebookIcon from "../assets/images/facebook.png";
 import twitterIcon from "../assets/images/twitter.png";
 import instaIcon from "../assets/images/insta.png";
+import { Navigate } from "react-router-dom";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -60,6 +61,8 @@ const SignupPage = () => {
         password: "",
         confirmPassword: "",
       });
+
+      Navigate("/Onboarding");
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Server error");
       console.error("Signup error:", error);
