@@ -1,42 +1,66 @@
+// routes/loans.js
 const express = require("express");
+const Loan = require("../models/Loan");
 const router = express.Router();
-const Loan = require("../models/Loan"); 
-const authMiddleware = require("../middleware/auth"); // This should be fine if the path is correct
+const authMiddleware = require("../middleware/auth");
 
-// Middleware to check authentication
-router.use(authMiddleware); 
-
-// Create a new loan entry
-router.post("/", async (req, res) => {
-    const { loanType, principalAmount, interestRate, duration, startDate } = req.body;
-    const userId = req.user.id; 
-    const newLoan = new Loan({
-        loanType,
-        principalAmount,
-        interestRate,
-        duration,
-        startDate,
-        userId,
-    });
-
-    try {
-        const savedLoan = await newLoan.save();
-        res.status(201).json(savedLoan);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
+// Create a new loan
+router.post("/", authMiddleware, async (req, res) => {
+    console.log("POST /loans route hit"); // Add this line
+    console.log("Request body:", req.body); // Log request body for inspection
+  try {
+    const loan = new Loan(req.body);
+    await loan.save();
+    res.status(201).json(loan);
+    console.log("Loan added");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
-// Get all loans for a user
+// Get all loans
 router.get("/", async (req, res) => {
-    const userId = req.user.id; // Use authenticated user's ID
-
-    try {
-        const loans = await Loan.find({ userId });
-        res.status(200).json(loans);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
+  try {
+    const loans = await Loan.find();
+    res.json(loans);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
-module.exports = router; 
+// Get a loan by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const loan = await Loan.findById(req.params.id);
+    if (!loan) return res.status(404).json({ message: "Loan not found" });
+    res.json(loan);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Update a loan
+router.put("/:id", async (req, res) => {
+  try {
+    const loan = await Loan.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!loan) return res.status(404).json({ message: "Loan not found" });
+    res.json(loan);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// Delete a loan
+router.delete("/:id", async (req, res) => {
+  try {
+    const loan = await Loan.findByIdAndDelete(req.params.id);
+    if (!loan) return res.status(404).json({ message: "Loan not found" });
+    res.json({ message: "Loan deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+module.exports = router;

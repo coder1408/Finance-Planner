@@ -28,7 +28,7 @@ const BudgetTracker = () => {
     return acc;
   }, {});
 
-  // Handle new expense addition
+
   const handleAddExpense = async (e) => {
     e.preventDefault();
     const expenseCategory = e.target.category.value;
@@ -67,7 +67,6 @@ const BudgetTracker = () => {
 };
 
 
-  // Handle new category addition
   const handleAddCategory = async (e) => {
     e.preventDefault();
     const categoryName = newCategory.trim(); // Get the trimmed category name
@@ -100,7 +99,7 @@ const BudgetTracker = () => {
 };
 
 
-  // Handle new goal addition
+
   const handleAddGoal = async (e) => {
     e.preventDefault(); // Prevent default form submission
     const { category, targetAmount } = newGoal; // Get the values from newGoal

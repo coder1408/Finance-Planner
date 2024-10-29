@@ -1,4 +1,3 @@
-// LoanTracker.jsx
 import React, { useState, useEffect } from "react";
 import {
   LineChart,
@@ -20,11 +19,21 @@ const LoanTracker = () => {
     lender: "",
     type: "personal",
     startDate: "",
-    monthlyPayment: "",
   });
 
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [payments, setPayments] = useState([]);
+
+  // Fetch existing loans on component mount
+  useEffect(() => {
+    const fetchLoans = async () => {
+      const response = await fetch("http://localhost:5000/api/loans");
+      const data = await response.json();
+      setLoans(data);
+    };
+    
+    fetchLoans();
+  }, []);
 
   // Calculate monthly payment
   const calculateMonthlyPayment = (amount, rate, term) => {
@@ -96,33 +105,65 @@ const LoanTracker = () => {
     return schedule;
   };
 
-  const handleAddLoan = (e) => {
+  const handleAddLoan = async (e) => {
     e.preventDefault();
+  
+    console.log("Add Loan function triggered"); // Check if function is triggered
+
+    // Calculate monthly payment
     const monthlyPayment = calculateMonthlyPayment(
       parseFloat(newLoan.amount),
       parseFloat(newLoan.interestRate),
       parseFloat(newLoan.term)
     );
 
+    // Create loan object with formatted startDate
     const loanWithPayment = {
       ...newLoan,
-      id: Date.now(),
       monthlyPayment,
       amount: parseFloat(newLoan.amount),
       interestRate: parseFloat(newLoan.interestRate),
       term: parseFloat(newLoan.term),
+      startDate: new Date(newLoan.startDate).toISOString().split("T")[0], // Format date as YYYY-MM-DD
+      type: newLoan.type || "personal", // Default to "personal" if not provided
     };
 
-    setLoans([...loans, loanWithPayment]);
-    setNewLoan({
-      amount: "",
-      interestRate: "",
-      term: "",
-      lender: "",
-      type: "personal",
-      startDate: "",
-      monthlyPayment: "",
-    });
+    console.log("Loan data to send:", loanWithPayment);
+
+    try {
+      const response = await fetch("/api/loans", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loanWithPayment),
+      });
+
+      console.log("Response status:", response.status); // Check response status
+
+      if (response.ok) {
+        const savedLoan = await response.json();
+
+        // Update the loans state to include the new loan from backend response
+        setLoans((prevLoans) => [...prevLoans, savedLoan]);
+
+        // Clear the form after successful submission
+        setNewLoan({
+          amount: "",
+          interestRate: "",
+          term: "",
+          lender: "",
+          type: "personal",
+          startDate: "",
+        });
+
+        console.log("Loan added successfully:", savedLoan); // Log successful addition
+      } else {
+        console.error("Failed to add loan:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding loan:", error.message);
+    }
   };
 
   const handleAddPayment = (loanId, amount) => {
@@ -232,7 +273,7 @@ const LoanTracker = () => {
               />
             </div>
             <div className={styles.formGroup}>
-              <label>Loan Type</label>
+              <label>Type</label>
               <select
                 value={newLoan.type}
                 onChange={(e) =>
@@ -240,8 +281,8 @@ const LoanTracker = () => {
                 }
               >
                 <option value="personal">Personal</option>
+                <option value="home">Home</option>
                 <option value="auto">Auto</option>
-                <option value="mortgage">Mortgage</option>
                 <option value="student">Student</option>
               </select>
             </div>
@@ -257,127 +298,52 @@ const LoanTracker = () => {
               />
             </div>
           </div>
-          <button type="submit" className={styles.button}>
-            Add Loan
-          </button>
+          <button type="submit">Add Loan</button>
         </form>
       </section>
 
-      {/* Loan List */}
-      <section className={styles.loanList}>
+      {/* Your Loans */}
+      <section className={styles.yourLoans}>
         <h2>Your Loans</h2>
-        {loans.map((loan) => (
-          <div key={loan.id} className={styles.loanCard}>
-            <div className={styles.loanHeader}>
-              <h3>
-                {loan.lender} - {loan.type}
-              </h3>
-              <button className={styles.viewbutton} onClick={() => setSelectedLoan(loan)}>
-                View Details
-              </button>
-            </div>
-            <div className={styles.loanDetails}>
-              <p>Amount: ${loan.amount}</p>
+        <ul>
+          {loans.map((loan) => (
+            <li key={loan.id}>
+              <h3>{loan.lender}</h3>
+              <p>Amount: ${loan.amount.toFixed(2)}</p>
               <p>Interest Rate: {loan.interestRate}%</p>
+              <p>Term: {loan.term} years</p>
               <p>Monthly Payment: ${loan.monthlyPayment.toFixed(2)}</p>
-            </div>
-          </div>
-        ))}
+              <p>Type: {loan.type}</p>
+              <p>Start Date: {new Date(loan.startDate).toLocaleDateString()}</p>
+              <button onClick={() => {
+                const paymentAmount = prompt("Enter payment amount:");
+                if (paymentAmount) handleAddPayment(loan.id, paymentAmount);
+              }}>
+                Add Payment
+              </button>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      {/* Loan Details Modal */}
+      {/* Payment Schedule */}
       {selectedLoan && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <h2>Loan Details</h2>
-            <button
-              className={styles.closeButton}
-              onClick={() => setSelectedLoan(null)}
-            >
-              ×
-            </button>
-
-            {/* Payment Schedule */}
-            <div className={styles.paymentSchedule}>
-              <h3>Payment Schedule</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Payment #</th>
-                    <th>Date</th>
-                    <th>Payment</th>
-                    <th>Principal</th>
-                    <th>Interest</th>
-                    <th>Remaining</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {generatePaymentSchedule(selectedLoan).map((payment) => (
-                    <tr key={payment.paymentNumber}>
-                      <td>{payment.paymentNumber}</td>
-                      <td>{payment.date.toLocaleDateString()}</td>
-                      <td>${payment.totalPayment.toFixed(2)}</td>
-                      <td>${payment.principal.toFixed(2)}</td>
-                      <td>${payment.interest.toFixed(2)}</td>
-                      <td>${payment.remainingBalance.toFixed(2)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Payment History */}
-            <div className={styles.paymentHistory}>
-              <h3>Payment History</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {payments
-                    .filter((payment) => payment.loanId === selectedLoan.id)
-                    .map((payment) => (
-                      <tr key={payment.id}>
-                        <td>{new Date(payment.date).toLocaleDateString()}</td>
-                        <td>${payment.amount.toFixed(2)}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Loan Progress Chart */}
-            <div className={styles.chart}>
-              <h3>Loan Progress</h3>
-              <LineChart
-                width={600}
-                height={300}
-                data={generatePaymentSchedule(selectedLoan)}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="paymentNumber" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="remainingBalance"
-                  stroke="#8884d8"
-                  name="Remaining Balance"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="interest"
-                  stroke="#82ca9d"
-                  name="Interest"
-                />
-              </LineChart>
-            </div>
-          </div>
-        </div>
+        <section className={styles.paymentSchedule}>
+          <h2>Payment Schedule for {selectedLoan.lender}</h2>
+          <LineChart
+            width={500}
+            height={300}
+            data={generatePaymentSchedule(selectedLoan)}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="paymentNumber" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="remainingBalance" stroke="#8884d8" />
+          </LineChart>
+        </section>
       )}
     </div>
   );

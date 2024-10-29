@@ -104,9 +104,9 @@ const FinancialOnboarding = ({ token }) => { // Accept token as a prop
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}` // Use the passed token
+                    Authorization: `Bearer ${token}`, // Ensure token is available and correctly formatted
                 },
-                body: JSON.stringify({ answers })
+                body: JSON.stringify({ answers }),
             });
             console.log('Submitting answers:', answers);
             const data = await response.json();
@@ -116,6 +116,7 @@ const FinancialOnboarding = ({ token }) => { // Accept token as a prop
             console.error('Error submitting answers:', error);
         }
     };
+    
 
     const renderOptions = () => (
         <div className={styles.optionsContainer}>
