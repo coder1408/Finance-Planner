@@ -29,41 +29,109 @@ const BudgetTracker = () => {
   }, {});
 
   // Handle new expense addition
-  const handleAddExpense = (e) => {
+  const handleAddExpense = async (e) => {
     e.preventDefault();
     const expenseCategory = e.target.category.value;
     const expenseAmount = parseFloat(e.target.amount.value);
     const expenseDate = e.target.date.value;
 
     if (expenseCategory && expenseAmount > 0) {
-      const newExpense = {
-        category: expenseCategory,
-        amount: expenseAmount,
-        date: expenseDate,
-        id: Date.now()
-      };
-      setExpenses([...expenses, newExpense]);
-      e.target.reset();
+        const newExpense = {
+            category: expenseCategory,
+            amount: expenseAmount,
+            date: expenseDate,
+        };
+
+        try {
+            const response = await fetch('api/budget/addExpense', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ensure you're sending the token
+                },
+                body: JSON.stringify(newExpense),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                console.log("Expense added successfully:", result); // Log the result
+                setExpenses((prevExpenses) => [...prevExpenses, result]); // Update state with new expense
+                e.target.reset();
+            } else {
+                console.error("Error adding expense:", result); // Log error response
+            }
+        } catch (error) {
+            console.error("Network error:", error); // Log network errors
+        }
     }
-  };
+};
+
 
   // Handle new category addition
-  const handleAddCategory = (e) => {
+  const handleAddCategory = async (e) => {
     e.preventDefault();
-    if (newCategory && !categories.includes(newCategory)) {
-      setCategories([...categories, newCategory]);
-      setNewCategory('');
+    const categoryName = newCategory.trim(); // Get the trimmed category name
+
+    if (categoryName && !categories.includes(categoryName)) {
+        const newCategory = { category: categoryName }; // Create the category object
+
+        try {
+            const response = await fetch('/api/budget/addCategory', { // Ensure correct endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include the token
+                },
+                body: JSON.stringify(newCategory), // Send the category name
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                console.log("Category added successfully:", result);
+                setCategories((prevCategories) => [...prevCategories, result.category]); // Update state with new category
+                setNewCategory(''); // Reset input field
+            } else {
+                console.error("Error adding category:", result); // Log error response
+            }
+        } catch (error) {
+            console.error("Network error:", error); // Log network errors
+        }
     }
-  };
+};
+
 
   // Handle new goal addition
-  const handleAddGoal = (e) => {
-    e.preventDefault();
-    if (newGoal.category && newGoal.targetAmount > 0) {
-      setGoals([...goals, { ...newGoal, id: Date.now() }]);
-      setNewGoal({ category: '', targetAmount: '', currentAmount: 0 });
+  const handleAddGoal = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    const { category, targetAmount } = newGoal; // Get the values from newGoal
+
+    // Validate input
+    if (category && targetAmount > 0) {
+        try {
+            const response = await fetch('/api/budget/addGoal', { // Ensure correct endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include the token
+                },
+                body: JSON.stringify({ category, targetAmount }), // Send the goal details
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                console.log("Goal added successfully:", result); // Log success
+                setGoals((prevGoals) => [...prevGoals, result]); // Update state with new goal
+                setNewGoal({ category: '', targetAmount: '' }); // Reset input fields
+            } else {
+                console.error("Error adding goal:", result); // Log error response
+            }
+        } catch (error) {
+            console.error("Network error:", error); // Log network errors
+        }
+    } else {
+        console.error("Category and target amount are required"); // Log validation errors
     }
-  };
+};
 
   // Prepare data for the bar chart
   const chartData = Object.entries(categoryTotals).map(([category, amount]) => ({
