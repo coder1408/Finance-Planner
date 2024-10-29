@@ -4,7 +4,7 @@ import generalStyles from "../assets/styles/dashboard/DashGeneral.module.css";
 import headerStyles from "../assets/styles/dashboard/Header.module.css";
 import sidebarStyles from "../assets/styles/dashboard/Sidebar.module.css";
 import logo from "../assets/images/logo.png";
-import user from "../assets/images/user.png";
+import userpic from "../assets/images/user.png";
 
 const Dashboard = () => {
   const { user } = useUser(); // Get the user from context
@@ -28,7 +28,7 @@ const Dashboard = () => {
               </p>
               <img
                 className={headerStyles.profilePic}
-                src={user}
+                src={userpic}
                 alt="User Profile"
               />
             </div>
