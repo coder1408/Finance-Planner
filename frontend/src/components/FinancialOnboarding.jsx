@@ -75,23 +75,19 @@ const questions = [
     }
 ];
 
-const FinancialOnboarding = ({ onSubmit }) => {
+const FinancialOnboarding = ({ token }) => { // Accept token as a prop
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState({});
-    const [customInput, setCustomInput] = useState("");
-    const [showCustom, setShowCustom] = useState(false);
 
     const handleNext = () => {
         if (currentQuestion < questions.length - 1) {
             setCurrentQuestion(curr => curr + 1);
-            resetCustomInput();
         }
     };
 
     const handlePrevious = () => {
         if (currentQuestion > 0) {
             setCurrentQuestion(curr => curr - 1);
-            resetCustomInput();
         }
     };
 
@@ -102,20 +98,23 @@ const FinancialOnboarding = ({ onSubmit }) => {
         }));
     };
 
-    const resetCustomInput = () => {
-        setShowCustom(false);
-        setCustomInput("");
-    };
-
-    const handleCustomSubmit = () => {
-        if (customInput.trim()) {
-            handleOptionSelect(customInput);
-            resetCustomInput();
+    const handleSubmit = async () => {
+        try {
+            const response = await fetch('/api/users/Onboarding', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}` // Use the passed token
+                },
+                body: JSON.stringify({ answers })
+            });
+            console.log('Submitting answers:', answers);
+            const data = await response.json();
+            console.log(data.message); // Show success message
+            // Optionally reset the form or navigate away
+        } catch (error) {
+            console.error('Error submitting answers:', error);
         }
-    };
-
-    const handleSubmit = () => {
-        onSubmit(answers);  // Pass the answers to the backend integration function
     };
 
     const renderOptions = () => (
@@ -131,38 +130,12 @@ const FinancialOnboarding = ({ onSubmit }) => {
                     {option}
                 </button>
             ))}
-            {!showCustom && (
-                <button onClick={() => setShowCustom(true)} className={styles.option}>
-                    + Add custom option
-                </button>
-            )}
-            {showCustom && (
-                <div className={styles.customInput}>
-                    <input
-                        type="text"
-                        value={customInput}
-                        onChange={(e) => setCustomInput(e.target.value)}
-                        placeholder="Enter your custom option"
-                        className={styles.input}
-                    />
-                    <button onClick={handleCustomSubmit} className={styles.addButton}>
-                        Add
-                    </button>
-                </div>
-            )}
         </div>
     );
 
     return (
         <div className={styles.container}>
             <div className={styles.card}>
-                <div className={styles.progressBar}>
-                    <div
-                        className={styles.progressFill}
-                        style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
-                    />
-                </div>
-
                 <TransitionGroup>
                     <CSSTransition
                         key={currentQuestion}

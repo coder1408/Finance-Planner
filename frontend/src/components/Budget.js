@@ -1,4 +1,4 @@
-// BudgetTracker.js
+
 import React, { useState } from 'react';
 import styles from '../assets/styles/budget/budget.module.css';
 
