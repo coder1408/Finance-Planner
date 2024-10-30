@@ -36,7 +36,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch("/api/user/profile"); // Replace with your API endpoint
+        const response = await fetch("/api/user/profile"); 
         if (!response.ok) throw new Error("Failed to fetch user profile");
         const data = await response.json();
         setUserProfile(data);

@@ -2,9 +2,10 @@ const User = require('../models/User');
 const Answer = require('../models/Answer');
 
 // Function to fetch user profile
-const getUserProfile = async (req, res) => {
+exports.getUserProfile = async (req, res) => {
+    console.log("GET user profile hit");
     try {
-        const userId = req.user.id;
+        const userId = req.user.id; // Ensure req.user is populated by the auth middleware
         const userProfile = await User.findById(userId)
             .select("-password")
             .populate("expenses")
@@ -23,10 +24,12 @@ const getUserProfile = async (req, res) => {
 };
 
 // Function to update user profile
-const updateUserProfile = async (req, res) => {
+exports.updateUserProfile = async (req, res) => {
     try {
         const userId = req.user.id;
         const updatedProfileData = req.body;
+
+        // Optionally validate updatedProfileData here
 
         const updatedProfile = await User.findByIdAndUpdate(
             userId,
@@ -45,29 +48,5 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-// Financial Onboarding Submission
-const submitFinancialOnboarding = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const { answers } = req.body;
 
-        const newAnswer = new Answer({
-            userId,
-            answers,
-            submittedAt: new Date()
-        });
 
-        await newAnswer.save();
-        console.log(newAnswer);
-        res.status(200).json({ message: 'Financial onboarding answers submitted successfully!' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to submit financial onboarding answers" });
-    }
-};
-
-module.exports = {
-    getUserProfile,
-    updateUserProfile,
-    submitFinancialOnboarding
-};

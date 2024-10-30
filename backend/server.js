@@ -19,7 +19,12 @@ console.log("MONGO URI:",MONGO_URI);*/
 const app = express();
 app.use(express.json()); // Middleware to parse JSON
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",  // Allows requests from any origin
+  methods: "GET,POST",
+  allowedHeaders: "Content-Type,Authorization"
+}));
+
 
 
 mongoose.connect(process.env.MONGO_URI, {
@@ -33,9 +38,10 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use("/api/auth", authRoutes);
 app.use("/api/loans", authMiddleware, loanRoutes);
 app.use("/api/budget", authMiddleware, budgetRoutes);
+app.use("/api/user", authMiddleware, userRoutes);
 
 // Onboarding Route
-app.post('/api/Onboarding', async (req, res) => {
+app.post('/api/onboarding', authMiddleware, async (req, res) => {
   const { answers } = req.body;
   const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
 
@@ -46,8 +52,8 @@ app.post('/api/Onboarding', async (req, res) => {
   }
 
   try {
-      const decoded = jwt.verify(token, 'your_jwt_secret'); // Use your JWT secret
-      const userId = decoded.id; // Extract user ID from token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET); // Use your JWT secret
+      const userId = decoded.userId; // Make sure you use the correct field
 
       // Create a new onboarding record
       const onboarding = new Onboarding({
@@ -62,6 +68,7 @@ app.post('/api/Onboarding', async (req, res) => {
       res.status(500).json({ message: 'Error submitting answers' });
   }
 });
+
 
 
 const PORT = process.env.PORT || 5000;

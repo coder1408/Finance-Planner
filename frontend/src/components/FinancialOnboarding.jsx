@@ -105,7 +105,7 @@ const FinancialOnboarding = ({ token }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`, // Ensure token is available and correctly formatted
+                     // Ensure token is available and correctly formatted
                     Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify({ answers }),
