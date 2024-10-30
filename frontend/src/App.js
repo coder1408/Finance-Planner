@@ -12,6 +12,7 @@ import BudgetAllocation from "./components/Budget";
 import Invoice from "./components/Invoice"; // Import the Invoice component
 import Profile from "./components/Profile"; // Import the Profile component
 import Onboarding from "./components/FinancialOnboarding";
+import InvestmentAdvisor from "./components/Guide";
 import { UserProvider } from "./components/UserContext";
 
 const App = () => {
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="/FAQ's" element={<FAQ />} />
           <Route path="/Budget" element={<BudgetAllocation />} />
           <Route path="/tracker" element={<Tracker />} />
+          <Route path="/guide" element={<InvestmentAdvisor />} />
           <Route
             path="/invoice"
             element={
@@ -66,6 +68,7 @@ const App = () => {
         </Routes>
       </Router>
     </UserProvider>
+
   );
 };
 

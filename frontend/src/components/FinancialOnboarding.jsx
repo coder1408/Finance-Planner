@@ -75,19 +75,20 @@ const questions = [
     }
 ];
 
-const FinancialOnboarding = ({ token }) => { // Accept token as a prop
+const FinancialOnboarding = ({ token }) => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState({});
+    const [submissionMessage, setSubmissionMessage] = useState("");
 
     const handleNext = () => {
         if (currentQuestion < questions.length - 1) {
-            setCurrentQuestion(curr => curr + 1);
+            setCurrentQuestion((prev) => prev + 1);
         }
     };
 
     const handlePrevious = () => {
         if (currentQuestion > 0) {
-            setCurrentQuestion(curr => curr - 1);
+            setCurrentQuestion((prev) => prev - 1);
         }
     };
 
@@ -100,20 +101,25 @@ const FinancialOnboarding = ({ token }) => { // Accept token as a prop
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('/api/users/Onboarding', {
+            const response = await fetch('/api/onboarding', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`, // Ensure token is available and correctly formatted
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify({ answers }),
             });
-            console.log('Submitting answers:', answers);
+
             const data = await response.json();
-            console.log(data.message); // Show success message
-            // Optionally reset the form or navigate away
+            if (response.ok) {
+                setSubmissionMessage("Your answers have been submitted successfully!");
+            } else {
+                setSubmissionMessage(data.message || "Failed to submit answers.");
+            }
         } catch (error) {
             console.error('Error submitting answers:', error);
+            setSubmissionMessage("An error occurred while submitting your answers.");
         }
     };
     
@@ -182,6 +188,12 @@ const FinancialOnboarding = ({ token }) => { // Accept token as a prop
                         </button>
                     )}
                 </div>
+
+                {submissionMessage && (
+                    <div className={styles.submissionMessage}>
+                        {submissionMessage}
+                    </div>
+                )}
             </div>
         </div>
     );
