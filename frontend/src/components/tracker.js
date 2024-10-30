@@ -17,7 +17,7 @@ const LoanTracker = () => {
     interestRate: "",
     term: "",
     lender: "",
-    type: "personal",
+    type: "Personal",
     startDate: "",
   });
 
@@ -114,6 +114,15 @@ const LoanTracker = () => {
 
   const handleAddLoan = async (e) => {
     e.preventDefault();
+
+    const userId = localStorage.getItem('userId');
+    console.log("Retrieved userId from localStorage:", userId); // Add this log
+
+    if (!userId) {
+      console.error("No userId found in localStorage");
+      // You might want to handle this error, perhaps redirect to login
+      return;
+    }
 
     console.log("Add Loan function triggered"); // Check if function is triggered
 
@@ -300,9 +309,10 @@ const LoanTracker = () => {
                         setNewLoan({ ...newLoan, type: e.target.value })
                     }
                 >
-                  <option value="personal">Personal</option>
+                  <option value="Personal">Personal</option>
                   <option value="mortgage">Mortgage</option>
                   <option value="car">Car</option>
+                  <option value="student">Student</option>
                 </select>
               </div>
               <div className={styles.formGroup}>
