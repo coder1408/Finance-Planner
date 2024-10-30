@@ -5,9 +5,6 @@ const { getUserProfile, updateUserProfile } = require('../controllers/userContro
 const router = express.Router();
 
 
-router.use(authMiddleware); 
-
-
 router.get("/user/profile", getUserProfile);
 
 

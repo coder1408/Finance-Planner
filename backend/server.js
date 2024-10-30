@@ -45,15 +45,15 @@ app.post('/api/onboarding', authMiddleware, async (req, res) => {
   const { answers } = req.body;
   const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
 
-  console.log('Received Token:', token); // Log the received token
+  console.log('Received Token:', token); 
 
   if (!token) {
       return res.status(401).json({ message: 'No token provided.' });
   }
 
   try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET); // Use your JWT secret
-      const userId = decoded.userId; // Make sure you use the correct field
+      const decoded = jwt.verify(token, process.env.JWT_SECRET); 
+      const userId = decoded.userId; 
 
       // Create a new onboarding record
       const onboarding = new Onboarding({
