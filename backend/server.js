@@ -38,7 +38,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use("/api/auth", authRoutes);
 app.use("/api/loans", authMiddleware, loanRoutes);
 app.use("/api/budget", authMiddleware, budgetRoutes);
-app.use("/api/user", authMiddleware, userRoutes);
+app.use("/api/user", userRoutes);
 
 // Onboarding Route
 app.post('/api/onboarding', authMiddleware, async (req, res) => {

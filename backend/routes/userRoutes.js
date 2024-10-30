@@ -4,13 +4,13 @@ const { getUserProfile, updateUserProfile } = require('../controllers/userContro
 
 const router = express.Router();
 
-// Apply auth middleware to protect routes
-router.use(authMiddleware); // Ensure this is applied
 
-// Fetch user profile including expenses, budgets, and loans
-router.get("/profile", getUserProfile);
+router.use(authMiddleware); 
 
-// Update user profile
-router.put("/profile", updateUserProfile);
+
+router.get("/user/profile", getUserProfile);
+
+
+router.put("/user/profile", updateUserProfile);
 
 module.exports = router;

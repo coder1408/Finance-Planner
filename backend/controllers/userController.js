@@ -1,11 +1,11 @@
 const User = require('../models/User');
 const Answer = require('../models/Answer');
 
-// Function to fetch user profile
+
 exports.getUserProfile = async (req, res) => {
     console.log("GET user profile hit");
     try {
-        const userId = req.user.id; // Ensure req.user is populated by the auth middleware
+        const userId = req.user.id; 
         const userProfile = await User.findById(userId)
             .select("-password")
             .populate("expenses")
@@ -23,13 +23,12 @@ exports.getUserProfile = async (req, res) => {
     }
 };
 
-// Function to update user profile
+
 exports.updateUserProfile = async (req, res) => {
     try {
         const userId = req.user.id;
         const updatedProfileData = req.body;
 
-        // Optionally validate updatedProfileData here
 
         const updatedProfile = await User.findByIdAndUpdate(
             userId,
