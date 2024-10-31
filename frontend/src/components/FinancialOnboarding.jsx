@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styles from '../assets/styles/Onboarding/FinancialOnboarding.module.css';
+import {useNavigate} from "react-router-dom";
+import { useUser } from './UserContext';
 
 const questions = [
     {
@@ -75,10 +77,13 @@ const questions = [
     }
 ];
 
-const FinancialOnboarding = ({ token }) => {
+const FinancialOnboarding = () => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState({});
     const [submissionMessage, setSubmissionMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate();
+    const { updateUserAfterOnboarding } = useUser();
 
     const handleNext = () => {
         if (currentQuestion < questions.length - 1) {
@@ -101,25 +106,34 @@ const FinancialOnboarding = ({ token }) => {
 
     const handleSubmit = async () => {
         try {
+            setIsSubmitting(true);
             const response = await fetch('/api/onboarding', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                     // Ensure token is available and correctly formatted
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
                 body: JSON.stringify({ answers }),
             });
 
             const data = await response.json();
             if (response.ok) {
-                setSubmissionMessage("Your answers have been submitted successfully!");
+                // Update the user context with the new data
+                const updated = await updateUserAfterOnboarding(answers);
+                if (updated) {
+                    setSubmissionMessage("Your answers have been submitted successfully!");
+                    navigate('/dashboard');
+                } else {
+                    setSubmissionMessage("Profile updated but there was an error loading your data.");
+                }
             } else {
                 setSubmissionMessage(data.message || "Failed to submit answers.");
             }
         } catch (error) {
             console.error('Error submitting answers:', error);
             setSubmissionMessage("An error occurred while submitting your answers.");
+        } finally {
+            setIsSubmitting(false);
         }
     };
     
@@ -166,7 +180,7 @@ const FinancialOnboarding = ({ token }) => {
                 <div className={styles.navigation}>
                     <button
                         onClick={handlePrevious}
-                        disabled={currentQuestion === 0}
+                        disabled={currentQuestion === 0 || isSubmitting}
                         className={`${styles.navButton} ${styles.prevButton}`}
                     >
                         ← Previous
@@ -175,6 +189,7 @@ const FinancialOnboarding = ({ token }) => {
                     {currentQuestion < questions.length - 1 ? (
                         <button
                             onClick={handleNext}
+                            disabled={isSubmitting}
                             className={`${styles.navButton} ${styles.nextButton}`}
                         >
                             Next →
@@ -182,9 +197,10 @@ const FinancialOnboarding = ({ token }) => {
                     ) : (
                         <button
                             onClick={handleSubmit}
+                            disabled={isSubmitting}
                             className={`${styles.navButton} ${styles.submitButton}`}
                         >
-                            Submit
+                            {isSubmitting ? 'Submitting...' : 'Submit'}
                         </button>
                     )}
                 </div>
@@ -198,5 +214,6 @@ const FinancialOnboarding = ({ token }) => {
         </div>
     );
 };
+
 
 export default FinancialOnboarding;
