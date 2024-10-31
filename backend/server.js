@@ -6,7 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 const loanRoutes = require('./routes/loanRoutes');
 const userRoutes = require('./routes/userRoutes');
 const budgetRoutes = require("./routes/budgetRoutes");
-const authMiddleware = require("./middleware/auth");
+const { authMiddleware }= require("./middleware/auth");
 console.log(authMiddleware);
 const Onboarding = require('./models/Onboarding');
 const jwt = require('jsonwebtoken');
@@ -21,8 +21,8 @@ const app = express();
 app.use(express.json()); // Middleware to parse JSON
 
 app.use(cors({
-  origin: "http://localhost:3000",  // Allows requests from any origin
-  methods: "GET,POST",
+  origin: "*",  // Allows requests from any origin
+  methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization"
 }));
 
@@ -37,38 +37,46 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/loans", authMiddleware, loanRoutes);
-app.use("/api/budget", authMiddleware, budgetRoutes);
+app.use("/api/loans", loanRoutes);
+app.use("/api/budget", budgetRoutes);
 app.use("/api/user", userRoutes);
 
-// Onboarding Route
+/// Onboarding Route
 app.post('/api/onboarding', authMiddleware, async (req, res) => {
   const { answers } = req.body;
   const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
 
-  console.log('Received Token:', token); 
+  console.log('Received Token:', token);  
 
   if (!token) {
+      console.error('No token provided.');
       return res.status(401).json({ message: 'No token provided.' });
   }
 
   try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET); 
-      const userId = decoded.userId; 
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = decoded.userId;
 
+      console.log('Decoded User ID:', userId);  
+      console.log('Received Answers:', answers); 
       // Create a new onboarding record
       const onboarding = new Onboarding({
           userId,
           answers,
       });
 
-      await onboarding.save();
+      const saveResult = await onboarding.save();  
+
+      console.log('Onboarding save result:', saveResult); 
+
       res.status(201).json({ message: 'Onboarding answers submitted successfully.' });
   } catch (error) {
-      console.error('Error submitting onboarding answers:', error);
-      res.status(500).json({ message: 'Error submitting answers' });
+      console.error('Error in onboarding route:', error);  
+      res.status(500).json({ message: 'Error submitting answers', error: error.message });
   }
 });
+
+
 
 
 

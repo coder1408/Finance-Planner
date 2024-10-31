@@ -2,7 +2,7 @@
 const express = require("express");
 const Loan = require("../models/Loan");
 const router = express.Router();
-const authMiddleware = require("../middleware/auth");
+const  { authMiddleware } = require("../middleware/auth");
 
 // Create a new loan
 router.post("/", authMiddleware, async (req, res) => {
@@ -19,7 +19,7 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 // Get all loans
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const loans = await Loan.find();
     res.json(loans);
@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get a loan by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", authMiddleware, async (req, res) => {
   try {
     const loan = await Loan.findById(req.params.id);
     if (!loan) return res.status(404).json({ message: "Loan not found" });
@@ -40,7 +40,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Update a loan
-router.put("/:id", async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   try {
     const loan = await Loan.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -53,7 +53,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete a loan
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const loan = await Loan.findByIdAndDelete(req.params.id);
     if (!loan) return res.status(404).json({ message: "Loan not found" });

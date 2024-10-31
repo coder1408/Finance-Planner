@@ -1,5 +1,5 @@
 const express = require("express");
-const authMiddleware = require("../middleware/auth");
+const { authMiddleware } = require("../middleware/auth");
 const Budget = require("../models/Budget");
 const Expense = require("../models/Expense");
 const Goal = require("../models/Goal");

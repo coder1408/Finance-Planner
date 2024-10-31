@@ -1,7 +1,5 @@
 const User = require('../models/User');
-const Answer = require('../models/Answer');
-const  { authMiddleware }= require('../middleware/auth');
-
+const { authMiddleware } = require('../middleware/auth');
 
 
 exports.getUserProfile = async (req, res) => {
