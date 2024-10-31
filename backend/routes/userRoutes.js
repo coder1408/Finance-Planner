@@ -5,9 +5,7 @@ const { getUserProfile, updateUserProfile } = require('../controllers/userContro
 const router = express.Router();
 
 
-router.get("/user/profile", getUserProfile);
-
-
-router.put("/user/profile", updateUserProfile);
+router.get("/profile", getUserProfile); // Apply middleware here
+router.put("/profile", updateUserProfile)
 
 module.exports = router;

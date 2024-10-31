@@ -1,9 +1,12 @@
 const User = require('../models/User');
 const Answer = require('../models/Answer');
+const  { authMiddleware }= require('../middleware/auth');
+
 
 
 exports.getUserProfile = async (req, res) => {
     console.log("GET user profile hit");
+    console.log("User ID:", req.user.id);
     try {
         const userId = req.user.id; 
         const userProfile = await User.findById(userId)

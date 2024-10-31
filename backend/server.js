@@ -7,11 +7,12 @@ const loanRoutes = require('./routes/loanRoutes');
 const userRoutes = require('./routes/userRoutes');
 const budgetRoutes = require("./routes/budgetRoutes");
 const authMiddleware = require("./middleware/auth");
+console.log(authMiddleware);
 const Onboarding = require('./models/Onboarding');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 console.log(process.env.MONGO_URI);
-
+console.log("JWT Secret:", process.env.JWT_SECRET);
 
 /*const MONGO_URI = "mongodb+srv://shrutisramdurg:dbPassword@cluster0.dby4l.mongodb.net/FinancePlanner?retryWrites=true&w=majority&appName=Cluster0";
 console.log("MONGO URI:",MONGO_URI);*/
