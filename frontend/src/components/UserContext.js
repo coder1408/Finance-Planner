@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
         return;
       }
 
-      const response = await axios.get("http://localhost:5000/api/user", {
+      const response = await axios.get("http://localhost:3000/api/user/profile", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -32,7 +32,7 @@ export const UserProvider = ({ children }) => {
   const updateUserAfterOnboarding = async (onboardingData) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get("http://localhost:5000/api/user", {
+      const response = await axios.get("http://localhost:3000/api/user/profile", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

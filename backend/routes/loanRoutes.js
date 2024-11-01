@@ -39,6 +39,17 @@ router.get("/:id", authMiddleware, async (req, res) => {
   }
 });
 
+// Get loans by userId
+router.get("/user/:userId", authMiddleware, async (req, res) => {
+  try {
+    const loans = await Loan.find({ userId: req.params.userId });
+    if (!loans.length) return res.status(404).json({ message: "No loans found for this user" });
+    res.json(loans);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Update a loan
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
