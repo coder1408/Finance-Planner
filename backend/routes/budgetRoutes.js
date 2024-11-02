@@ -127,4 +127,16 @@ router.get("/summary", authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/budgets", authMiddleware, async (req, res) => {
+    console.log("Fetch Budgets Endpoint Hit"); // Log when endpoint is hit
+    try {
+        const budgets = await Expense.find({ userId: req.user._id }); // Find budgets by user ID
+        res.status(200).json(budgets); // Return the list of budgets
+        console.log("Budgets fetched:", budgets); // Log fetched budgets
+    } catch (error) {
+        console.error("Error fetching budgets:", error); // Log any error
+        res.status(500).json({ message: "Error fetching budgets", error: error.message });
+    }
+});
+
 module.exports = router;

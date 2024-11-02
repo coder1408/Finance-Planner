@@ -107,27 +107,24 @@ const FinancialOnboarding = () => {
     const handleSubmit = async () => {
         try {
             setIsSubmitting(true);
-            const response = await fetch('/api/onboarding', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: JSON.stringify({ answers }),
-            });
 
-            const data = await response.json();
-            if (response.ok) {
-                // Update the user context with the new data
-                const updated = await updateUserAfterOnboarding(answers);
-                if (updated) {
-                    setSubmissionMessage("Your answers have been submitted successfully!");
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setSubmissionMessage("Authentication token not found. Please try logging in again.");
+                navigate('/login');
+                return;
+            }
+
+            const updated = await updateUserAfterOnboarding(answers);
+
+            if (updated) {
+                setSubmissionMessage("Your answers have been submitted successfully!");
+                // Add a small delay to ensure the user sees the success message
+                setTimeout(() => {
                     navigate('/dashboard');
-                } else {
-                    setSubmissionMessage("Profile updated but there was an error loading your data.");
-                }
+                }, 1000);
             } else {
-                setSubmissionMessage(data.message || "Failed to submit answers.");
+                setSubmissionMessage("Failed to update your profile.");
             }
         } catch (error) {
             console.error('Error submitting answers:', error);
@@ -136,7 +133,8 @@ const FinancialOnboarding = () => {
             setIsSubmitting(false);
         }
     };
-    
+
+
 
     const renderOptions = () => (
         <div className={styles.optionsContainer}>

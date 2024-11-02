@@ -50,7 +50,7 @@ const SignupPage = () => {
         password: formData.password,
         name: formData.name,
       });
-
+      localStorage.setItem('token', response.data.token);
       console.log("Signup successful:", response.data);
 
       // Reset form data

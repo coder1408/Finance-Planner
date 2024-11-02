@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts'; // Import Recharts components
 import styles from '../assets/styles/budget/budget.module.css';
 
@@ -18,6 +18,29 @@ const BudgetTracker = () => {
     currentAmount: 0
   });
   const [selectedView, setSelectedView] = useState('expenses');
+
+    useEffect(() => {
+        const fetchBudgets = async () => {
+            try {
+                const response = await fetch('/api/budget/budgets', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const budgetsData = await response.json();
+                    setExpenses(budgetsData); // Assuming budgetsData is an array of expense objects
+                } else {
+                    console.error("Error fetching budgets:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Network error:", error);
+            }
+        };
+
+        fetchBudgets();
+    }, []);
 
   // Calculate totals and statistics
   const totalExpenses = expenses.reduce((sum, exp) => sum + parseFloat(exp.amount), 0);

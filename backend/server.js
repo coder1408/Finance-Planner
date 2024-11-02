@@ -6,6 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 const loanRoutes = require('./routes/loanRoutes');
 const userRoutes = require('./routes/userRoutes');
 const budgetRoutes = require("./routes/budgetRoutes");
+const onboardingRoutes = require('./routes/onboardingRoutes');
 const { authMiddleware }= require("./middleware/auth");
 console.log(authMiddleware);
 const Onboarding = require('./models/Onboarding');
@@ -40,6 +41,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/loans", loanRoutes);
 app.use("/api/budget", budgetRoutes);
 app.use("/api/user", userRoutes);
+app.use('/api/onboarding', onboardingRoutes);
 
 /// Onboarding Route
 app.post('/api/onboarding', authMiddleware, async (req, res) => {
