@@ -139,4 +139,16 @@ router.get("/budgets", authMiddleware, async (req, res) => {
     }
 });
 
+router.get("/goals", authMiddleware, async (req, res) => {
+  console.log("Fetch Goals Endpoint Hit"); // Log when endpoint is hit
+  try {
+    const goals = await Goal.find({ userId: req.user._id }); // Find goals by user ID
+    res.status(200).json(goals); // Return the list of goals
+    console.log("Goals fetched:", goals); // Log fetched goals
+  } catch (error) {
+    console.error("Error fetching goals:", error); // Log any error
+    res.status(500).json({ message: "Error fetching goals", error: error.message });
+  }
+});
+
 module.exports = router;

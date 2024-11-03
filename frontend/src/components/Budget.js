@@ -38,8 +38,28 @@ const BudgetTracker = () => {
                 console.error("Network error:", error);
             }
         };
+        const fetchGoals = async () => {
+            try {
+                const response = await fetch('/api/budget/goals', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
 
-        fetchBudgets();
+                if (response.ok) {
+                    const goalsData = await response.json();
+                    setGoals(goalsData); // Assuming goalsData is an array of goal objects
+                } else {
+                    console.error("Error fetching goals:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Network error:", error);
+            }
+        };
+
+        fetchBudgets().then(r => console.log(r));
+        fetchGoals().then(r => console.log(r));
+
     }, []);
 
   // Calculate totals and statistics

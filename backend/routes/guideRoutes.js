@@ -1,10 +1,11 @@
 const express = require("express");
-const {getFinancialOverview, getBudgetAdvice, getGoalProgress, getLoanRepaymentAdvice} = require("../controllers/guideController")
+const {getFinancialOverview, getBudgetAdvice, getGoalProgress, getLoanRepaymentAdvice} = require("../controllers/guideController");
+const { authMiddleware } = require("../middleware/auth");
 const router = express.Router();
 
-router.get("/overview", getFinancialOverview);
-router.get("/budget-advice", getBudgetAdvice);
-router.get("/goal-progress", getGoalProgress);
-router.get("/loan-repayment-advice", getLoanRepaymentAdvice);
+// Add authMiddleware to protect all routes
+router.get("/overview", authMiddleware, getFinancialOverview);
+router.get("/goal-progress", authMiddleware, getGoalProgress);
+router.get("/loan-repayment-advice", authMiddleware, getLoanRepaymentAdvice);
 
 module.exports = router;
