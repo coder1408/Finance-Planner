@@ -4,7 +4,7 @@ const User = require('../models/User'); // You'll need your User model
 const submitOnboarding = async (req, res) => {
     try {
         const { answers } = req.body;
-        const userId = req.user.id; // This comes from your auth middleware
+        const userId = req.user._id; // This comes from your auth middleware
 
         // Check if user has already completed onboarding
         const existingOnboarding = await Onboarding.findOne({ userId });
@@ -47,7 +47,7 @@ const submitOnboarding = async (req, res) => {
 
 const getOnboardingData = async (req, res) => {
     try {
-        const userId = req.user.id;
+        const userId = req.user._id;
 
         const onboardingData = await Onboarding.findOne({ userId });
 

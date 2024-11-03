@@ -1,12 +1,12 @@
 /* styles.module.css */
 
 .sidebar {
-    position: fixed;
+    position: absolute;
     top: 125px;
     left: 0;
     bottom: 0;
     background-color: white;
-    width: 300px;
+    width: 250px;
     z-index: 200;
     padding-top: 10px;
     border-right: 2px solid transparent;
