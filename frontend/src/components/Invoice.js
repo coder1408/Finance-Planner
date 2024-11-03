@@ -1,204 +1,212 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../assets/styles/invoice/Invoice.module.css";
 
-const Invoice = ({ userId, billingPeriod }) => {
-  const [user, setUser] = useState(null);
-  const [transactions, setTransactions] = useState([]);
-  const [income, setIncome] = useState([]);
-  const [savings, setSavings] = useState(0);
-  const [loading, setLoading] = useState(true);
+const Invoice = ({ billingPeriod }) => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [authToken, setAuthToken] = useState(null);
 
-  // Fetch data from backend
   useEffect(() => {
-    const fetchData = async () => {
+    // Check for token on component mount
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("No authentication token found. Please log in.");
+      return;
+    }
+    setAuthToken(token);
+
+    const fetchCurrentUser = async () => {
       try {
-        setLoading(true);
-        // Fetch user information
-        const userResponse = await fetch(`/api/users/${userId}`);
-        const userData = await userResponse.json();
-        setUser(userData);
+        console.log("Fetching user with token:", token);
 
-        // Fetch transactions
-        const transactionsResponse = await fetch(
-          `/api/users/${userId}/transactions`
-        );
-        const transactionsData = await transactionsResponse.json();
-        setTransactions(transactionsData);
+        const response = await fetch("/api/user/profile", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include", // Include cookies if using session-based auth
+        });
 
-        // Fetch income
-        const incomeResponse = await fetch(`/api/users/${userId}/income`);
-        const incomeData = await incomeResponse.json();
-        setIncome(incomeData);
+        console.log("Profile response status:", response.status);
 
-        // Fetch savings
-        const savingsResponse = await fetch(`/api/users/${userId}/savings`);
-        const savingsData = await savingsResponse.json();
-        setSavings(savingsData);
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem("token"); // Clear invalid token
+            throw new Error("Authentication token expired. Please log in again.");
+          }
+          throw new Error(`Failed to fetch user profile: ${response.status}`);
+        }
+
+        const userData = await response.json();
+        console.log("User data received:", userData);
+
+        if (!userData._id) {
+          throw new Error("No user ID found in response");
+        }
+
+        setUserId(userData._id);
       } catch (err) {
-        setError("Failed to fetch data. Please try again later.");
-      } finally {
-        setLoading(false);
+        console.error("Failed to fetch current user:", err);
+        setError(err.message || "Failed to authenticate user. Please try logging in again.");
       }
     };
 
-    fetchData();
-  }, [userId]);
+    fetchCurrentUser();
+  }, []);
 
-  // Check for loading or error state
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
-  const totalExpenses = transactions.reduce(
-    (acc, transaction) => acc + (transaction?.amount || 0),
-    0
-  );
-  const totalIncome = income.reduce((acc, inc) => acc + (inc?.amount || 0), 0);
-  const netBalance = totalIncome - totalExpenses;
-
-  const categorizedExpenses = transactions.reduce((acc, transaction) => {
-    const category = transaction?.category || "Uncategorized";
-    if (!acc[category]) {
-      acc[category] = {
-        amount: 0,
-        transactions: 0,
-      };
+  const generatePDF = async () => {
+    if (!userId || !authToken) {
+      setError("User not authenticated. Please log in.");
+      return;
     }
-    acc[category].amount += transaction?.amount || 0;
-    acc[category].transactions += 1;
-    acc[category].percentage =
-      totalExpenses > 0 ? (acc[category].amount / totalExpenses) * 100 : 0;
-    return acc;
-  }, {});
 
-  const invoiceNumber = `INV-${new Date().getFullYear()}${String(
-    new Date().getMonth() + 1
-  ).padStart(2, "0")}${String(new Date().getDate()).padStart(
-    2,
-    "0"
-  )}-${Math.floor(Math.random() * 1000)
-    .toString()
-    .padStart(3, "0")}`;
+    try {
+      setLoading(true);
+      setError(null);
+      setPdfUrl(null);
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.invoiceCard}>
-        <div className={styles.cardContent}>
-          <div className={styles.header}>
-            <div className={styles.headerTop}>
-              <div>
-                <h1 className={styles.title}>Finance Tracker</h1>
-                <p className={styles.subtitle}>Professional Invoice</p>
+      console.log("Generating PDF with token:", authToken);
+
+      const response = await fetch("/api/invoice/generate", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        credentials: "include", // Include cookies if using session-based auth
+      });
+
+      console.log("Generate PDF response status:", response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("PDF generation error response:", errorData);
+
+        if (response.status === 401) {
+          localStorage.removeItem("token"); // Clear invalid token
+          throw new Error("Authentication expired. Please log in again.");
+        }
+
+        throw new Error(errorData.error || errorData.details || `HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("PDF generation success response:", data);
+
+      if (!data.filePath) {
+        throw new Error("Invalid response format: missing file path");
+      }
+
+      // Construct the full URL for the PDF
+      const fullPdfUrl = `${window.location.origin}${data.filePath}`;
+      setPdfUrl(fullPdfUrl);
+    } catch (err) {
+      console.error("PDF generation error:", err);
+      setError(err.message || "Failed to generate PDF invoice");
+
+      if (err.message.includes("authentication") || err.message.includes("log in")) {
+        // Redirect to login or show login modal
+        // window.location.href = '/login';
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // If no auth token is present, show login prompt
+  if (!authToken) {
+    return (
+        <div className={styles.container}>
+          <div className={styles.invoiceCard}>
+            <div className={styles.cardContent}>
+              <div className={styles.error}>
+                Please log in to access invoice generation.
+                {/* Add your login button/link here */}
               </div>
-              <span className={styles.invoiceNumber}>{invoiceNumber}</span>
-            </div>
-            <div className={styles.metadata}>
-              <div>Generated: {new Date().toLocaleDateString()}</div>
-              <div>Billing Period: {billingPeriod}</div>
-            </div>
-          </div>
-
-          <div className={styles.userSection}>
-            <h3 className={styles.sectionTitle}>User Information</h3>
-            {user && (
-              <div className={styles.userInfo}>
-                <div>{user.name}</div>
-                <div>{user.email}</div>
-                <div>{user.phone || "N/A"}</div>
-              </div>
-            )}
-          </div>
-
-          <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Expense Summary</h3>
-            {Object.keys(categorizedExpenses).length > 0 ? (
-              <div className={styles.expensesList}>
-                {Object.entries(categorizedExpenses).map(([category, data]) => (
-                  <div key={category} className={styles.expenseItem}>
-                    <div className={styles.categoryIndicator}>
-                      <div className={styles.dot} />
-                      <span>{category}</span>
-                    </div>
-                    <div className={styles.expenseItem}>
-                      <span className={styles.percentageText}>
-                        {data.percentage.toFixed(1)}%
-                      </span>
-                      <span className={styles.amountText}>
-                        ${data.amount.toFixed(2)}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className={styles.noData}>No expenses recorded</p>
-            )}
-          </div>
-
-          <div className={styles.divider} />
-
-          <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Income Summary</h3>
-            {income.length > 0 ? (
-              <div className={styles.expensesList}>
-                {income.map((inc, index) => (
-                  <div key={index} className={styles.incomeItem}>
-                    <span>{inc.source}</span>
-                    <span className={styles.amountText}>
-                      ${inc.amount.toFixed(2)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className={styles.noData}>No income recorded</p>
-            )}
-          </div>
-
-          <div className={styles.divider} />
-
-          <div className={styles.overviewGrid}>
-            <div className={styles.overviewItem}>
-              <p className={styles.overviewLabel}>Total Expenses</p>
-              <p className={styles.expenseAmount}>
-                -${totalExpenses.toFixed(2)}
-              </p>
-            </div>
-            <div className={styles.overviewItem}>
-              <p className={styles.overviewLabel}>Total Income</p>
-              <p className={styles.incomeAmount}>+${totalIncome.toFixed(2)}</p>
-            </div>
-            <div className={styles.overviewItem}>
-              <p className={styles.overviewLabel}>Net Balance</p>
-              <p
-                className={`${styles.balanceAmount} ${
-                  netBalance >= 0
-                    ? styles.balancePositive
-                    : styles.balanceNegative
-                }`}
-              >
-                ${netBalance.toFixed(2)}
-              </p>
-            </div>
-          </div>
-
-          <div className={styles.savingsSection}>
-            <h3 className={styles.sectionTitle}>Savings & Investments</h3>
-            <div className={styles.incomeItem}>
-              <span>Total Savings Added</span>
-              <span className={styles.savingsAmount}>
-                +${savings.toFixed(2)}
-              </span>
             </div>
           </div>
         </div>
-      </div>
+    );
+  }
 
-      <footer className={styles.footer}>
-        <p>Contact us at support@primeplanfinancials.com</p>
-        <p>Thank you for using our service!</p>
-      </footer>
-    </div>
+  // If we're still loading the user data
+  if (!userId && !error) {
+    return (
+        <div className={styles.container}>
+          <div className={styles.invoiceCard}>
+            <div className={styles.cardContent}>
+              <div className={styles.loading}>Loading user data...</div>
+            </div>
+          </div>
+        </div>
+    );
+  }
+
+  return (
+      <div className={styles.container}>
+        <div className={styles.invoiceCard}>
+          <div className={styles.cardContent}>
+            <div className={styles.header}>
+              <div className={styles.headerTop}>
+                <div>
+                  <h1 className={styles.title}>Finance Tracker</h1>
+                  <p className={styles.subtitle}>Professional Invoice</p>
+                </div>
+                <div className={styles.actions}>
+                  <button
+                      onClick={generatePDF}
+                      className={styles.downloadButton}
+                      disabled={loading}
+                  >
+                    {loading ? "Generating PDF..." : "Generate Invoice PDF"}
+                  </button>
+                </div>
+              </div>
+              <div className={styles.metadata}>
+                <div>Generated: {new Date().toLocaleDateString()}</div>
+                {billingPeriod && <div>Billing Period: {billingPeriod}</div>}
+                <div>User ID: {userId}</div>
+              </div>
+            </div>
+
+            {error && (
+                <div className={styles.errorNotification}>
+                  <p>{error}</p>
+                  {error.includes("log in") && (
+                      <button
+                          className={styles.loginButton}
+                          onClick={() => {
+                            // Add your login navigation logic here
+                            // window.location.href = '/login';
+                          }}
+                      >
+                        Go to Login
+                      </button>
+                  )}
+                </div>
+            )}
+
+            {pdfUrl && (
+                <div className={styles.pdfNotification}>
+                  <p>
+                    PDF generated successfully!{" "}
+                    <a
+                        href={pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.downloadLink}
+                    >
+                      Click here to download your invoice
+                    </a>
+                  </p>
+                </div>
+            )}
+          </div>
+        </div>
+      </div>
   );
 };
 

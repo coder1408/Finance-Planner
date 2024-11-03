@@ -1,14 +1,11 @@
 .container {
-  max-width: 56rem;
-  margin: 0 auto;
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 .invoiceCard {
   background-color: white;
   border-radius: 0.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .cardContent {
@@ -16,166 +13,74 @@
 }
 
 .header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .headerTop {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .title {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #111827;
+  font-weight: bold;
+  color: #1a202c;
 }
 
 .subtitle {
-  font-size: 0.875rem;
-  color: #6B7280;
-}
-
-.invoiceNumber {
-  padding: 0.25rem 0.75rem;
-  background-color: #F3F4F6;
-  color: #1F2937;
-  border-radius: 9999px;
-  font-size: 0.875rem;
+  color: #4a5568;
 }
 
 .metadata {
+  color: #718096;
   font-size: 0.875rem;
-  color: #6B7280;
 }
 
-.section {
-  margin-bottom: 1.5rem;
+.actions {
+  display: flex;
+  align-items: center;
 }
 
-.userSection {
-  background-color: #F9FAFB;
-  border-radius: 0.5rem;
+.downloadButton {
+  padding: 0.5rem 1rem;
+  background-color: #4a5568;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.downloadButton:hover {
+  background-color: #2d3748;
+}
+
+.downloadButton:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.errorNotification {
+  margin: 1rem 0;
   padding: 1rem;
+  background-color: #fff5f5;
+  border: 1px solid #fc8181;
+  border-radius: 0.375rem;
+  color: #c53030;
 }
 
-.sectionTitle {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.userInfo {
-  display: grid;
-  gap: 0.5rem;
-  color: #4B5563;
-}
-
-.expensesList {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.expenseItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.categoryIndicator {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 9999px;
-  background-color: #3B82F6;
-}
-
-.percentageText {
-  font-size: 0.875rem;
-  color: #6B7280;
-  margin-right: 1rem;
-}
-
-.amountText {
-  font-weight: 500;
-}
-
-.divider {
-  border-top: 1px solid #E5E7EB;
-  margin: 1.5rem 0;
-}
-
-.incomeItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.overviewGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-
-.overviewItem {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.overviewLabel {
-  font-size: 0.875rem;
-  color: #6B7280;
-}
-
-.expenseAmount {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #EF4444;
-}
-
-.incomeAmount {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #10B981;
-}
-
-.balanceAmount {
-  font-size: 1.125rem;
-  font-weight: 600;
-}
-
-.balancePositive {
-  color: #10B981;
-}
-
-.balanceNegative {
-  color: #EF4444;
-}
-
-.savingsSection {
-  background-color: #F9FAFB;
-  border-radius: 0.5rem;
+.pdfNotification {
+  margin: 1rem 0;
   padding: 1rem;
+  background-color: #f0fff4;
+  border: 1px solid #68d391;
+  border-radius: 0.375rem;
+  color: #2f855a;
 }
 
-.savingsAmount {
-  color: #10B981;
-  font-weight: 500;
-}
-
-.footer {
-  text-align: center;
-  font-size: 0.875rem;
-  color: #6B7280;
-  margin-top: 1.5rem;
-}
-
-.noData {
-  font-size: 0.875rem;
-  color: #6B7280;
+.pdfNotification a {
+  color: #2c7a7b;
+  text-decoration: underline;
 }
