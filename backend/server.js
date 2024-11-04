@@ -29,7 +29,7 @@ app.use(express.json());
 // Enable CORS with specified options
 app.use(cors({
     origin: "*",  // Allows requests from any origin
-    methods: "GET,POST,PUT,DELETE",
+    methods: "GET,POST,PUT,DELETE, PATCH",
     allowedHeaders: "Content-Type,Authorization"
 }));
 

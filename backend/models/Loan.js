@@ -10,6 +10,11 @@ const loanSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   monthlyPayment: { type: Number }, // Optional field for calculated monthly payment
   status: { type: String, enum: ["active", "paid", "defaulted"], default: "active" }, // Loan status
+  payments: [{ type: Number }], // Array to store multiple payment amounts
 });
+
+// Export the Loan model
+module.exports = mongoose.model("Loan", loanSchema);
+
 
 module.exports = mongoose.model("Loan", loanSchema);

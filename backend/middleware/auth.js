@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User"); 
+const User = require("../models/User");
 
 const authMiddleware = async (req, res, next) => {
-    console.log("Request Headers:", req.headers); // Log headers for debugging
-    
+    console.log("Request Headers:", req.headers); // Log headers
+
     const token = req.headers["authorization"]?.split(" ")[1];
-    console.log("Received Token:", token); // For debugging
+    console.log("Received Token:", token);
 
     if (!token) {
         console.log("No token provided");
@@ -14,21 +14,20 @@ const authMiddleware = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Decoded Token:", decoded); // Log decoded token for debugging
+        console.log("Decoded Token:", decoded);
 
-        const user = await User.findById(decoded.userId); // Confirm user ID field matches token structure
-
+        const user = await User.findById(decoded.userId);
         if (!user) {
             console.log("User not found");
             return res.status(401).json({ error: "User not found" });
         }
 
-        req.user = user; // Attach user to request object
-        next(); // Pass control to next middleware or route handler
+        req.user = user;
+        next();
     } catch (err) {
-        console.error("Token error:", err); // Log error for debugging
-        return res.status(401).json({ error: "Invalid token" });
+        console.error("Token error:", err.name, err.message); // Detailed error logging
+        return res.status(401).json({ error: err.name === "TokenExpiredError" ? "Token expired" : "Invalid token" });
     }
 };
 
-module.exports =  { authMiddleware } ;
+module.exports = { authMiddleware };

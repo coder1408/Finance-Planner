@@ -11,6 +11,7 @@ import {
 import styles from "../assets/styles/emicalculator/emi.module.css";
 
 const LoanTracker = () => {
+  const [paymentAmount, setPaymentAmount] = useState("");
   const [loans, setLoans] = useState([]);
   const [newLoan, setNewLoan] = useState({
     loanAmount: "",
@@ -25,6 +26,12 @@ const LoanTracker = () => {
   const [userID, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [summary, setSummary] = useState({
+    totalLoans: 0,
+    totalPaid: 0,
+    totalInterestPaid: 0,
+    totalRemaining: 0,
+  });
 
   // Fetch existing loans on component mount
   useEffect(() => {
@@ -66,6 +73,19 @@ const LoanTracker = () => {
         const loansData = await loansResponse.json();
         setLoans(Array.isArray(loansData) ? loansData : []);
 
+        const paymentsResponse = await fetch(`/api/loans/user/${userData._id}`, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!paymentsResponse.ok) {
+            throw new Error("Failed to fetch payments");
+        }
+
+        const paymentsData = await paymentsResponse.json();
+        setPayments(Array.isArray(paymentsData) ? paymentsData : []);
+
       } catch (error) {
         console.error("Error in data fetching:", error);
         setError(error.message);
@@ -76,6 +96,9 @@ const LoanTracker = () => {
 
     fetchUserAndLoans();
   }, []);
+
+  // Effect to calculate summary whenever loans or payments change
+
 
   // Calculate monthly payment
   const calculateMonthlyPayment = (amount, rate, term) => {
@@ -147,6 +170,39 @@ const LoanTracker = () => {
     return schedule;
   };
 
+  const calculateSummary = () => {
+    // Ensure loans and payments are defined
+    if (!loans || !payments) return;
+
+    // Calculate the total amount of loans
+    const totalLoans = loans.reduce((sum, loan) => sum + loan.loanAmount, 0);
+
+    // Calculate the total amount paid from payments
+    const totalPaid = loans.reduce((sum, loan) => {
+      // Ensure that payments is indeed an array of numbers
+      return sum + (Array.isArray(loan.payments) ? loan.payments.reduce((acc, payment) => acc + payment, 0) : 0);
+  }, 0);
+    // Calculate total interest paid
+    const totalInterestPaid = loans.reduce((sum, loan) => {
+        const loanPayments = payments.filter((p) => p.loanId === loan._id);
+        return sum + calculateTotalInterest(loan, loanPayments);
+    }, 0);
+
+    // Calculate total remaining balance
+    const totalRemaining = loans.reduce((sum, loan) => {
+        const loanPayments = payments.filter((p) => p.loanId === loan._id);
+        return sum + calculateRemainingBalance(loan, loanPayments);
+    }, 0);
+
+    // Set the summary state
+    setSummary({ totalLoans, totalPaid, totalInterestPaid, totalRemaining });
+};
+
+
+
+  useEffect(() => {
+    calculateSummary(); 
+  }, [loans, payments]);
 
   // Handle adding a new loan
   const handleAddLoan = async (e) => {
@@ -159,9 +215,9 @@ const LoanTracker = () => {
     }
 
     const monthlyPayment = calculateMonthlyPayment(
-        parseFloat(newLoan.loanAmount),
-        parseFloat(newLoan.interestRate),
-        parseFloat(newLoan.term)
+      parseFloat(newLoan.loanAmount),
+      parseFloat(newLoan.interestRate),
+      parseFloat(newLoan.term)
     );
 
     const loanWithPayment = {
@@ -171,7 +227,7 @@ const LoanTracker = () => {
       interestRate: parseFloat(newLoan.interestRate),
       term: parseFloat(newLoan.term),
       startDate: new Date(newLoan.startDate).toISOString().split("T")[0],
-      loanType: newLoan.loanType, // Changed from type to loanType
+      loanType: newLoan.loanType,
       userId: userID,
     };
 
@@ -205,52 +261,62 @@ const LoanTracker = () => {
     }
   };
 
-  // Calculate summary statistics
-  const calculateSummary = () => {
-    const totalLoans = loans.reduce((sum, loan) => sum + loan.loanAmount, 0);
-    const totalPaid = payments.reduce(
-      (sum, payment) => sum + payment.amount,
-      0
-    );
-    const totalInterestPaid = loans.reduce((sum, loan) => {
-      const loanPayments = payments.filter((p) => p.loanId === loan._id);
-      return sum + calculateTotalInterest(loan, loanPayments);
-    }, 0);
-    const totalRemaining = loans.reduce((sum, loan) => {
-      const loanPayments = payments.filter((p) => p.loanId === loan._id);
-      return sum + calculateRemainingBalance(loan, loanPayments);
-    }, 0);
+  const handlePayment = async (loanId, amount) => {
+    console.log("Handling payment for loan ID:", loanId, "with amount:", amount);
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(`/api/loans/${loanId}/payments`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json", 
+        },
+        body: JSON.stringify({ amount: parseFloat(amount) }),
+      });
 
-    return { totalLoans, totalPaid, totalInterestPaid, totalRemaining };
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Failed to add payment:", errorData.message);
+        alert(`Failed to add payment: ${errorData.message}`);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Payment added successfully:", data);
+      setPayments((prevPayments) => [...prevPayments, data.payment]); // Update the payments state
+      setPaymentAmount('');
+    } catch (error) {
+      console.error("Error adding payment:", error);
+      alert("An error occurred while adding payment.");
+    }
   };
-
+  console.log("YourLoans component rendered");
 
   return (
       <div className={styles.container}>
         <h1>Loan Tracker</h1>
 
-        {/* Summary Dashboard */}
         <section className={styles.summary}>
           <h2>Summary Dashboard</h2>
           <div className={styles.summaryGrid}>
             <div className={styles.summaryCard}>
               <h3>Total Loans</h3>
-              <p>${calculateSummary().totalLoans.toFixed(2)}</p>
+              <p>${summary.totalLoans.toFixed(2)}</p>
             </div>
             <div className={styles.summaryCard}>
               <h3>Total Paid</h3>
-              <p>${calculateSummary().totalPaid.toFixed(2)}</p>
+              <p>${summary.totalPaid.toFixed(2)}</p>
             </div>
             <div className={styles.summaryCard}>
               <h3>Interest Paid</h3>
-              <p>${calculateSummary().totalInterestPaid.toFixed(2)}</p>
+              <p>${summary.totalInterestPaid.toFixed(2)}</p>
             </div>
             <div className={styles.summaryCard}>
               <h3>Remaining Balance</h3>
-              <p>${calculateSummary().totalRemaining.toFixed(2)}</p>
+              <p>${summary.totalRemaining.toFixed(2)}</p>
             </div>
           </div>
-        </section>
+      </section>
 
         {/* Add New Loan Form */}
         <section className={styles.addLoan}>
@@ -334,26 +400,35 @@ const LoanTracker = () => {
 
         {/* Your Loans */}
         <section className={styles.yourLoans}>
-          <h2>Your Loans</h2>
-          <ul>
-            {loans.map((loan) => (
-                <li key={loan.id}>
-                  <h3>{loan.lender}</h3>
-                  <p>Amount: ${loan.loanAmount.toFixed(2)}</p>
-                  <p>Interest Rate: {loan.interestRate}%</p>
-                  <p>Term: {loan.term} years</p>
-                  <p>Monthly Payment: ${loan.monthlyPayment.toFixed(2)}</p>
-                  <p>Type: {loan.loanType}</p> {/* Changed from type to loanType */}
-                  <p>Start Date: {new Date(loan.startDate).toLocaleDateString()}</p>
-                  <button onClick={() => {
-                    const paymentAmount = prompt("Enter payment amount:");
-                    if (paymentAmount) handleAddPayment(loan.id, paymentAmount);
-                  }}>
-                    Add Payment
-                  </button>
-                </li>
-            ))}
-          </ul>
+            <h2>Your Loans</h2>
+            <ul>
+                {loans.map((loan) => (
+                    <li key={loan._id}>
+                        <h3>{loan.lender}</h3>
+                        <p>Amount: ${loan.loanAmount.toFixed(2)}</p>
+                        <p>Interest Rate: {loan.interestRate}%</p>
+                        <p>Term: {loan.term} years</p>
+                        <p>Monthly Payment: ${loan.monthlyPayment.toFixed(2)}</p>
+                        <p>Type: {loan.loanType}</p>
+                        <p>Start Date: {new Date(loan.startDate).toLocaleDateString()}</p>
+
+                        <input
+                            type="number"
+                            value={paymentAmount}
+                            onChange={(e) => setPaymentAmount(e.target.value)}
+                            placeholder="Enter payment amount"
+                            min="0"
+                            step="0.01"
+                        />
+                        <button onClick={() => {
+                            console.log("About to add payment for loan ID:", loan._id, "with amount:", paymentAmount);
+                            handlePayment(loan._id, paymentAmount);
+                        }}>
+                            Add Payment
+                        </button>
+                    </li>
+                ))}
+            </ul>
         </section>
 
         {/* Payment Schedule */}
@@ -379,4 +454,4 @@ const LoanTracker = () => {
   );
 };
 
-export default LoanTracker;
+export default React.memo(LoanTracker);

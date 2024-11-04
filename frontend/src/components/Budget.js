@@ -60,6 +60,29 @@ const BudgetTracker = () => {
         fetchBudgets().then(r => console.log(r));
         fetchGoals().then(r => console.log(r));
 
+        const fetchIncome = async () => {
+          try {
+              const response = await fetch('http://localhost:5000/api/budget/getIncome', {
+                  method: 'GET',
+                  headers: {
+                      'Authorization': `Bearer ${localStorage.getItem('token')}`, // Adjust as needed for your auth token storage
+                      'Content-Type': 'application/json',
+                  },
+              });
+
+              if (!response.ok) {
+                  throw new Error('Failed to fetch income');
+              }
+
+              const data = await response.json();
+              setIncome(data.income); // Set the income state with the fetched value
+          } catch (error) {
+              console.error(error);
+          }
+      };
+
+      fetchIncome();
+
     }, []);
 
   // Calculate totals and statistics
@@ -70,6 +93,38 @@ const BudgetTracker = () => {
     acc[expense.category] = (acc[expense.category] || 0) + parseFloat(expense.amount);
     return acc;
   }, {});
+
+  const handleIncomeSubmit = async (e) => {
+    e.preventDefault(); 
+
+    const token = localStorage.getItem("token"); // Get the token for authentication
+    if (!token) {
+        console.error("Authentication token is missing.");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:5000/api/budget/income", {
+            method: 'PATCH', // Use PATCH to update the existing income field
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ income: parseFloat(income) }) // Send income as JSON
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to update income");
+        }
+
+        const data = await response.json();
+        console.log("Income updated successfully:", data);
+        setIncome(''); // Clear the input field after successful submission
+
+    } catch (error) {
+        console.error("Error updating income:", error);
+    }
+};
 
 
   const handleAddExpense = async (e) => {
@@ -187,12 +242,15 @@ const BudgetTracker = () => {
           <h1>Budget Tracker</h1>
           <div className={styles.incomeInput}>
             <label>Monthly Income:</label>
-            <input
-                type="number"
-                value={income}
-                onChange={(e) => setIncome(e.target.value)}
-                placeholder="Enter monthly income"
-            />
+            <form onSubmit={handleIncomeSubmit}>
+              <input
+                  type="number"
+                  value={income}
+                  onChange={(e) => setIncome(e.target.value)}
+                  placeholder="Enter monthly income"
+              />
+              <button type="submit">Add Income</button>
+              </form>
           </div>
         </div>
 

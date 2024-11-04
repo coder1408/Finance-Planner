@@ -151,4 +151,55 @@ router.get("/goals", authMiddleware, async (req, res) => {
   }
 });
 
+// Route to update user's income
+router.patch('/income', authMiddleware, async (req, res) => {
+  const { income } = req.body;
+  console.log("income update route hit");
+
+  
+  if (typeof income !== 'number' || isNaN(income)) {
+      return res.status(400).json({ message: 'Invalid income value' });
+  }
+
+  try {
+      
+      const userId = req.user._id; 
+      const user = await User.findById(userId);
+
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      
+      user.income = income;
+      await user.save();
+
+      res.status(200).json({ message: 'Income updated successfully', user });
+  } catch (error) {
+      console.error('Error updating income:', error);
+      res.status(500).json({ message: 'Failed to update income' });
+  }
+});
+
+// Route to get the user's income
+router.get('/getIncome', authMiddleware, async (req, res) => {
+  console.log("Get income route hit");
+  try {
+      const userId = req.user._id; 
+
+      
+      const user = await User.findById(userId).select('income');
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      
+      return res.status(200).json({ income: user.income });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Failed to fetch income' });
+  }
+});
+
+
 module.exports = router;
