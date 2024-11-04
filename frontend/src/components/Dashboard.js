@@ -19,32 +19,11 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
 
   const CHART_COLORS = {
-    bar: [
-      '#3b82f6', // blue
-      '#10b981', // green
-      '#f59e0b', // yellow
-      '#ef4444', // red
-      '#8b5cf6', // purple
-      '#ec4899', // pink
-      '#06b6d4', // cyan
-      '#f97316', // orange
-    ],
-    pie: [
-      '#3b82f6',  // blue
-      '#10b981',  // green
-      '#f59e0b',  // yellow
-      '#ef4444',  // red
-      '#8b5cf6',  // purple
-      '#ec4899',  // pink
-      '#06b6d4',  // cyan
-      '#f97316',  // orange
-      '#6366f1',  // indigo
-      '#14b8a6',  // teal
-    ]
+    bar: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316'],
+    pie: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316', '#6366f1', '#14b8a6']
   };
 
   const getBarColor = (index) => CHART_COLORS.bar[index % CHART_COLORS.bar.length];
-
   const enhancedExpenses = expenses.map((expense, index) => ({
     ...expense,
     fill: CHART_COLORS.pie[index % CHART_COLORS.pie.length]
@@ -65,26 +44,19 @@ const Dashboard = () => {
             'Authorization': `Bearer ${token}`
           };
 
-          // Fetch all data concurrently
           const [loansData, expensesData, goalsData] = await Promise.all([
             fetch(`/api/loans/user/${user._id}`, { headers }).then(res => res.json()),
             fetch('/api/budget/budgets', { headers }).then(res => res.json()),
             fetch('/api/budget/goals', { headers }).then(res => res.json())
           ]);
 
-          setLoans(loansData);
-          setExpenses(expensesData);
-
-          // Calculate current amount based on expenses and target
+          setLoans(Array.isArray(loansData) ? loansData : []);
+          setExpenses(Array.isArray(expensesData) ? expensesData : []);
           const processedGoals = Array.isArray(goalsData) ? goalsData.map(goal => {
             const categoryExpenses = expensesData.reduce((sum, expense) =>
                 expense.category === goal.category ? sum + expense.amount : sum, 0);
-            return {
-              ...goal,
-              currentAmount: Math.max(0, categoryExpenses - goal.targetAmount)
-            };
+            return { ...goal, currentAmount: Math.max(0, categoryExpenses - goal.targetAmount) };
           }) : [];
-
           setGoals(processedGoals);
         }
       } catch (err) {
@@ -106,6 +78,10 @@ const Dashboard = () => {
   }
 
   const renderGoalsSection = () => {
+    if (!goals.length) {
+      return <p className={mainContentStyles.noDataMessage}>No goal progress data available.</p>;
+    }
+
     return (
         <section className={mainContentStyles.goalsSection}>
           <h2>Financial Goals Progress</h2>
@@ -125,10 +101,7 @@ const Dashboard = () => {
                   </span>
                     </div>
                     <div className={mainContentStyles.progressBar}>
-                      <div
-                          className={mainContentStyles.progressFill}
-                          style={{ width: `${percentage}%` }}
-                      />
+                      <div className={mainContentStyles.progressFill} style={{ width: `${percentage}%` }} />
                     </div>
                     <span className={mainContentStyles.percentageText}>{percentage}% Complete</span>
                   </div>
@@ -143,105 +116,71 @@ const Dashboard = () => {
       <div className={generalStyles.dashboard.body}>
         <header className={headerStyles.header}>
           <div className={headerStyles.leftSection}>
-            <img className={headerStyles.logo} src={logo} alt="PrimePlan Logo"/>
+            <img className={headerStyles.logo} src={logo} alt="PrimePlan Logo" />
             <div className={headerStyles.nameText}>PrimePlan Financials</div>
           </div>
           <div className={headerStyles.rightSection}>
             <div className={headerStyles.features}>
-              <Link to="/analytics">
-                <button className={headerStyles.featureButton}>Analytics</button>
-              </Link>
-              <Link to="/invoice">
-                <button className={headerStyles.featureButton}>Invoice</button>
-              </Link>
-              <Link to="/FAQ's">
-                <button className={headerStyles.featureButton}>Support</button>
-              </Link>
+              <Link to="/analytics"><button className={headerStyles.featureButton}>Analytics</button></Link>
+              <Link to="/invoice"><button className={headerStyles.featureButton}>Invoice</button></Link>
+              <Link to="/FAQ's"><button className={headerStyles.featureButton}>Support</button></Link>
               <div className={headerStyles.userInfo}>
-                <p>
-                  <span className={headerStyles.userName}>{user ? user.name : 'Guest'}</span>
-                </p>
-                <Link to="/profile">
-                  <img className={headerStyles.profilePic} src={userpic} alt="User Profile"/>
-                </Link>
+                <p><span className={headerStyles.userName}>{user ? user.name : 'Guest'}</span></p>
+                <Link to="/profile"><img className={headerStyles.profilePic} src={userpic} alt="User Profile" /></Link>
               </div>
             </div>
           </div>
         </header>
 
         <div className={sidebarStyles.sidebar}>
-          <div className={sidebarStyles.welcomeText}>
-            Welcome Back, {user ? user.name : 'Guest'}!
-          </div>
+          <div className={sidebarStyles.welcomeText}>Welcome Back, {user ? user.name : 'Guest'}!</div>
           <ul className={sidebarStyles.menu}>
-            <li className={sidebarStyles.menuItem}>
-              <Link to="/Budget">
-                <button className={sidebarStyles.menuButton}>Budgeting Tools</button>
-              </Link>
-            </li>
-            <li className={sidebarStyles.menuItem}>
-              <Link to="/Guide">
-                <button className={sidebarStyles.menuButton}>Investment Guide</button>
-              </Link>
-            </li>
-            <li className={sidebarStyles.menuItem}>
-              <Link to="/tracker">
-                <button className={sidebarStyles.menuButton}>Loan Tracker</button>
-              </Link>
-            </li>
+            <li className={sidebarStyles.menuItem}><Link to="/Budget"><button className={sidebarStyles.menuButton}>Budgeting Tools</button></Link></li>
+            <li className={sidebarStyles.menuItem}><Link to="/Guide"><button className={sidebarStyles.menuButton}>Investment Guide</button></Link></li>
+            <li className={sidebarStyles.menuItem}><Link to="/tracker"><button className={sidebarStyles.menuButton}>Loan Tracker</button></Link></li>
           </ul>
         </div>
+
         <section className={mainContentStyles.expensechartSection}>
           <h2>Expenses Overview</h2>
           <div className={mainContentStyles.chartWrapper}>
-            <ResponsiveContainer width="100%" height={400}>
-              <PieChart>
-                <Pie
-                    data={enhancedExpenses}
-                    dataKey="amount"
-                    nameKey="category"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={150}
-                    label={({name, percent}) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                    labelLine={true}
-                >
-                  {enhancedExpenses.map((entry, index) => (
-                      <Cell
-                          key={`cell-${index}`}
-                          fill={entry.fill}
-                      />
-                  ))}
-                </Pie>
-                <Tooltip
-                    formatter={(value) => `$${value.toLocaleString()}`}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            {enhancedExpenses.length > 0 ? (
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart>
+                    <Pie data={enhancedExpenses} dataKey="amount" nameKey="category" cx="50%" cy="50%" outerRadius={150} label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`} labelLine>
+                      {enhancedExpenses.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+                  </PieChart>
+                </ResponsiveContainer>
+            ) : (
+                <p className={mainContentStyles.noDataMessage}>No expenses data available.</p>
+            )}
           </div>
         </section>
+
         <main className={generalStyles.mainContent}>
           <section className={mainContentStyles.loanchartSection}>
             <h2>Loan Overview</h2>
             <div className={mainContentStyles.chartWrapper}>
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={loans}>
-                  <XAxis dataKey="loanType"/>
-                  <YAxis/>
-                  <Tooltip
-                      formatter={(value) => `$${value.toLocaleString()}`}
-                      labelStyle={{color: '#2c3e50'}}
-                  />
-                  <Bar
-                      dataKey="loanAmount"
-                      radius={[4, 4, 0, 0]} // slightly rounded tops
-                  >
-                    {loans.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={getBarColor(index)}/>
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              {loans.length > 0 ? (
+                  <ResponsiveContainer width="100%" height={400}>
+                    <BarChart data={loans}>
+                      <XAxis dataKey="loanType" />
+                      <YAxis />
+                      <Tooltip formatter={(value) => `$${value.toLocaleString()}`} labelStyle={{ color: '#2c3e50' }} />
+                      <Bar dataKey="loanAmount" radius={[4, 4, 0, 0]}>
+                        {loans.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={getBarColor(index)} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+              ) : (
+                  <p className={mainContentStyles.noDataMessage}>No loans data available.</p>
+              )}
             </div>
           </section>
 
