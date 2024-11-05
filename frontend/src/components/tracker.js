@@ -11,7 +11,7 @@ import {
 import styles from "../assets/styles/emicalculator/emi.module.css";
 
 const LoanTracker = () => {
-  const [paymentAmount, setPaymentAmount] = useState("");
+  const [paymentAmounts, setPaymentAmounts] = useState({});
   const [loans, setLoans] = useState([]);
   const [newLoan, setNewLoan] = useState({
     loanAmount: "",
@@ -262,37 +262,56 @@ const LoanTracker = () => {
   };
 
   const handlePayment = async (loanId, amount) => {
-    console.log("Handling payment for loan ID:", loanId, "with amount:", amount);
+    if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+      alert("Please enter a valid payment amount");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(`/api/loans/${loanId}/payments`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json", 
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ amount: parseFloat(amount) }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Failed to add payment:", errorData.message);
-        alert(`Failed to add payment: ${errorData.message}`);
-        return;
+        throw new Error(errorData.message || 'Failed to add payment');
       }
 
       const data = await response.json();
-      console.log("Payment added successfully:", data);
-      setPayments((prevPayments) => [...prevPayments, data.payment]); // Update the payments state
-      setPaymentAmount('');
+
+      // Update the loans state to reflect the new payment
+      setLoans(prevLoans =>
+          prevLoans.map(loan =>
+              loan._id === loanId
+                  ? { ...loan, payments: [...(loan.payments || []), parseFloat(amount)] }
+                  : loan
+          )
+      );
+
+      // Clear only the specific loan's payment amount
+      setPaymentAmounts(prev => ({
+        ...prev,
+        [loanId]: ''
+      }));
+
+      // Recalculate summary after payment
+      calculateSummary();
+
     } catch (error) {
       console.error("Error adding payment:", error);
-      alert("An error occurred while adding payment.");
+      alert(error.message || "An error occurred while adding payment.");
     }
   };
   console.log("YourLoans component rendered");
 
   return (
+      <body className={styles.loanBody}>
       <div className={styles.container}>
         <h1>Loan Tracker</h1>
 
@@ -316,7 +335,7 @@ const LoanTracker = () => {
               <p>${summary.totalRemaining.toFixed(2)}</p>
             </div>
           </div>
-      </section>
+        </section>
 
         {/* Add New Loan Form */}
         <section className={styles.addLoan}>
@@ -394,63 +413,71 @@ const LoanTracker = () => {
                 />
               </div>
             </div>
-            <button type="submit">Add Loan</button>
+            <button className={styles.addloanbutton} type="submit">Add Loan</button>
           </form>
         </section>
 
         {/* Your Loans */}
         <section className={styles.yourLoans}>
-            <h2>Your Loans</h2>
-            <ul>
-                {loans.map((loan) => (
-                    <li key={loan._id}>
-                        <h3>{loan.lender}</h3>
-                        <p>Amount: ${loan.loanAmount.toFixed(2)}</p>
-                        <p>Interest Rate: {loan.interestRate}%</p>
-                        <p>Term: {loan.term} years</p>
-                        <p>Monthly Payment: ${loan.monthlyPayment.toFixed(2)}</p>
-                        <p>Type: {loan.loanType}</p>
-                        <p>Start Date: {new Date(loan.startDate).toLocaleDateString()}</p>
+          <h2>Your Loans</h2>
+          <ul>
+            {loans.map((loan) => (
+                <li key={loan._id}>
+                  <div className={styles.loanCard}>
+                    <div className={styles.loanHeader}>
+                      <h3>{loan.lender}</h3>
+                    </div>
 
-                        <input
-                            type="number"
-                            value={paymentAmount}
-                            onChange={(e) => setPaymentAmount(e.target.value)}
-                            placeholder="Enter payment amount"
-                            min="0"
-                            step="0.01"
-                        />
-                        <button onClick={() => {
-                            console.log("About to add payment for loan ID:", loan._id, "with amount:", paymentAmount);
-                            handlePayment(loan._id, paymentAmount);
-                        }}>
-                            Add Payment
-                        </button>
-                    </li>
-                ))}
-            </ul>
+                    <div className={styles.loanDetails}>
+                      <p>Amount: ${loan.loanAmount.toFixed(2)}</p>
+                      <p>Interest Rate: {loan.interestRate}%</p>
+                      <p>Term: {loan.term} years</p>
+                      <p>Monthly Payment: ${loan.monthlyPayment.toFixed(2)}</p>
+                      <p>Type: {loan.loanType}</p>
+                      <p>Start Date: {new Date(loan.startDate).toLocaleDateString()}</p>
+                    </div>
+
+                    <div className={styles.paymentSection}>
+                      <input
+                          type="number"
+                          value={paymentAmounts[loan._id] || ''}
+                          onChange={(e) => setPaymentAmounts(prev => ({
+                            ...prev,
+                            [loan._id]: e.target.value
+                          }))}
+                          placeholder="Enter payment amount"
+                          min="0"
+                          step="0.01"
+                          className={styles.paymentInput}
+                      />
+                      <button
+                          onClick={() => handlePayment(loan._id, paymentAmounts[loan._id])}
+                          disabled={!paymentAmounts[loan._id] || parseFloat(paymentAmounts[loan._id]) <= 0}
+                          className={styles.paymentButton}
+                      >
+                        Add Payment
+                      </button>
+                    </div>
+
+                    {loan.payments && loan.payments.length > 0 && (
+                        <div className={styles.paymentHistory}>
+                          <h4>Payment History</h4>
+                          <ul>
+                            {loan.payments.map((payment, index) => (
+                                <li key={index}>
+                                  Payment #{index + 1}: ${payment.toFixed(2)}
+                                </li>
+                            ))}
+                          </ul>
+                        </div>
+                    )}
+                  </div>
+                </li>
+            ))}
+          </ul>
         </section>
-
-        {/* Payment Schedule */}
-        {selectedLoan && (
-            <section className={styles.paymentSchedule}>
-              <h2>Payment Schedule for {selectedLoan.lender}</h2>
-              <LineChart
-                  width={500}
-                  height={300}
-                  data={generatePaymentSchedule(selectedLoan)}
-                  margin={{top: 5, right: 30, left: 20, bottom: 5}}
-              >
-                <CartesianGrid strokeDasharray="3 3"/>
-                <XAxis dataKey="paymentNumber"/>
-                <YAxis/>
-                <Tooltip/>
-                <Legend/>
-                <Line type="monotone" dataKey="remainingBalance" stroke="#8884d8"/>
-              </LineChart>
-            </section>
-        )}
       </div>
+      </body>
   );
 };
 
