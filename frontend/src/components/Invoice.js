@@ -168,6 +168,16 @@ const Invoice = ({ billingPeriod }) => {
                   'Generate PDF Invoice'
               )}
             </button>
+            {pdfUrl && (
+                <div className={styles.success}>
+                  <p>
+                    PDF generated successfully!{" "}
+                    <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+                      Download Invoice
+                    </a>
+                  </p>
+                </div>
+            )}
           </div>
 
           {error && (
@@ -234,17 +244,6 @@ const Invoice = ({ billingPeriod }) => {
               </div>
             </div>
           </div>
-
-          {pdfUrl && (
-              <div className={styles.success}>
-                <p>
-                  PDF generated successfully!{" "}
-                  <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
-                    Download Invoice
-                  </a>
-                </p>
-              </div>
-          )}
         </div>
       </div>
   );

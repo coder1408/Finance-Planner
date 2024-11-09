@@ -171,12 +171,12 @@
 }
 
 .success {
-  margin: 1rem 2rem;
   padding: 1rem;
   background-color: #dcfce7;
   border: 1px solid #bbf7d0;
   border-radius: 6px;
   color: #15803d;
+  margin: 1rem 2rem 1rem -3px;
 }
 
 .success a {
