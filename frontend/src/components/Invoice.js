@@ -119,123 +119,134 @@ const Invoice = ({ billingPeriod }) => {
 
   if (!authToken) {
     return (
-      <div className={styles.container}>
-        <div className={styles.invoiceCard}>
-          <div className={styles.cardContent}>
-            <div className={styles.error}>
-              Please log in to access invoice generation.
-              {/* Add your login button/link here */}
-            </div>
+        <div className={styles.container}>
+          <div className={styles.loginPrompt}>
+            <h2>Authentication Required</h2>
+            <p>Please log in to access invoice generation.</p>
           </div>
         </div>
-      </div>
     );
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.invoiceCard}>
-        <div className={styles.cardContent}>
-          <div className={styles.header}>
-            <div className={styles.headerTop}>
-              <div>
-                <h1 className={styles.title}>Finance Tracker</h1>
-                <p className={styles.subtitle}>Professional Invoice</p>
-              </div>
-              <div className={styles.actions}>
-                <button
-                    onClick={generatePDF}
-                    className={styles.downloadButton}
-                    disabled={loading}
-                >
-                  {loading ? "Generating PDF..." : "Generate Invoice PDF"}
-                </button>
-              </div>
+      <div className={styles.container}>
+        <div className={styles.invoice}>
+          <div className={styles.invoiceHeader}>
+            <div className={styles.brandInfo}>
+              <h1>Finance Tracker</h1>
+              <span className={styles.documentType}>Professional Invoice</span>
             </div>
+
             <div className={styles.metadata}>
-              <div>Generated: {new Date().toLocaleDateString()}</div>
-              {billingPeriod && <div>Billing Period: {billingPeriod}</div>}
-              <div>User ID: {userId}</div>
+              <div className={styles.metaItem}>
+                <span className={styles.metaLabel}>Date:</span>
+                <span>{new Date().toLocaleDateString()}</span>
+              </div>
+              {billingPeriod && (
+                  <div className={styles.metaItem}>
+                    <span className={styles.metaLabel}>Billing Period:</span>
+                    <span>{billingPeriod}</span>
+                  </div>
+              )}
+              <div className={styles.metaItem}>
+                <span className={styles.metaLabel}>Invoice ID:</span>
+                <span>{userId}</span>
+              </div>
             </div>
+
+            <button
+                onClick={generatePDF}
+                className={`${styles.generateButton} ${loading ? styles.loading : ''}`}
+                disabled={loading}
+            >
+              {loading ? (
+                  <>
+                    <span className={styles.spinner}></span>
+                    Generating...
+                  </>
+              ) : (
+                  'Generate PDF Invoice'
+              )}
+            </button>
           </div>
 
           {error && (
-              <div className={styles.errorNotification}>
+              <div className={styles.error}>
                 <p>{error}</p>
               </div>
           )}
 
-          {/* Preview Invoice Data */}
-          <div className={styles.previewSection}>
-            <h2>Invoice Details Preview</h2>
+          <div className={styles.invoiceContent}>
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>Expenses</h2>
+              <div className={styles.grid}>
+                {expenses.length > 0 ? (
+                    expenses.map((expense) => (
+                        <div key={expense._id} className={styles.card}>
+                          <div className={styles.cardHeader}>{expense.category}</div>
+                          <div className={styles.cardBody}>
+                            <span className={styles.amount}>${expense.amount}</span>
+                            <span className={styles.label}>Amount Spent</span>
+                          </div>
+                        </div>
+                    ))
+                ) : (
+                    <p className={styles.emptyState}>No expenses available</p>
+                )}
+              </div>
+            </div>
 
-            <h3>Budgets</h3>
-            {budgets.length > 0 ? (
-              budgets.map((budget) => (
-                <div key={budget._id} className={styles.item}>
-                  <p>Category: {budget.category}</p>
-                  <p>Limit: ${budget.limit}</p>
-                </div>
-              ))
-            ) : (
-              <p>No budgets available.</p>
-            )}
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>Financial Goals</h2>
+              <div className={styles.grid}>
+                {goals.length > 0 ? (
+                    goals.map((goal) => (
+                        <div key={goal._id} className={styles.card}>
+                          <div className={styles.cardHeader}>{goal.category}</div>
+                          <div className={styles.cardBody}>
+                            <span className={styles.amount}>${goal.targetAmount}</span>
+                            <span className={styles.label}>Target Amount</span>
+                          </div>
+                        </div>
+                    ))
+                ) : (
+                    <p className={styles.emptyState}>No goals available</p>
+                )}
+              </div>
+            </div>
 
-            <h3>Expenses</h3>
-            {expenses.length > 0 ? (
-              expenses.map((expense) => (
-                <div key={expense._id} className={styles.item}>
-                  <p>Category: {expense.category}</p>
-                  <p>Amount: ${expense.amount}</p>
-                </div>
-              ))
-            ) : (
-              <p>No expenses available.</p>
-            )}
-
-            <h3>Goals</h3>
-            {goals.length > 0 ? (
-              goals.map((goal) => (
-                <div key={goal._id} className={styles.item}>
-                  <p>Goal: {goal.category}</p>
-                  <p>Target: ${goal.targetAmount}</p>
-                </div>
-              ))
-            ) : (
-              <p>No goals available.</p>
-            )}
-
-            <h3>Loans</h3>
-            {loans.length > 0 ? (
-              loans.map((loan) => (
-                <div key={loan._id} className={styles.item}>
-                  <p>Loan Type: {loan.loanType}</p>
-                  <p>Amount: ${loan.loanAmount}</p>
-                </div>
-              ))
-            ) : (
-              <p>No loans available.</p>
-            )}
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>Loans</h2>
+              <div className={styles.grid}>
+                {loans.length > 0 ? (
+                    loans.map((loan) => (
+                        <div key={loan._id} className={styles.card}>
+                          <div className={styles.cardHeader}>{loan.loanType}</div>
+                          <div className={styles.cardBody}>
+                            <span className={styles.amount}>${loan.loanAmount}</span>
+                            <span className={styles.label}>Loan Amount</span>
+                          </div>
+                        </div>
+                    ))
+                ) : (
+                    <p className={styles.emptyState}>No loans available</p>
+                )}
+              </div>
+            </div>
           </div>
 
           {pdfUrl && (
-              <div className={styles.pdfNotification}>
+              <div className={styles.success}>
                 <p>
                   PDF generated successfully!{" "}
-                  <a
-                      href={pdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.downloadLink}
-                  >
-                    Click here to download your invoice
+                  <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+                    Download Invoice
                   </a>
                 </p>
               </div>
           )}
         </div>
       </div>
-    </div>
   );
 };
 

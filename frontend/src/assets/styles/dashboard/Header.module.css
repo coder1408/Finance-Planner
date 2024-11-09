@@ -1,112 +1,83 @@
-/* styles.module.css */
-
 .header {
-  height: 125px;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: lighter;
-  background-color: white;
-  border-bottom: 1px solid transparent;
-  z-index: 100;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: 80px;
 }
 
 .leftSection {
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 .logo {
-  height: 80px !important;
-  width: auto !important;
-  margin-left: 50px;
-  border-radius: 50%;
-}
-
-.logo:hover {
-  cursor: pointer;
+  height: 40px;
+  width: auto;
+  border-radius: 8px;
 }
 
 .nameText {
-  font-size: 30px;
-  margin-left: 20px;
-  font-weight: bold;
-  color: black;
-}
-
-.nameText:hover {
-  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.025em;
 }
 
 .rightSection {
   display: flex;
   align-items: center;
-  flex-direction: row;
-  margin-right: -75px;
+  gap: 2rem;
 }
 
-.features {
+.navigation {
   display: flex;
-  margin-right: 130px;
-  background-color: transparent;
+  gap: 1.5rem;
 }
 
-.featureButton {
-  margin-left: 20px;
-  padding: 10px;
-  font-size: 20px;
-  background-color: transparent;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-  text-align: center;
-  margin-right: 5px;
-  height: 50px;
-  margin-top: 12px;
+.navLink {
+  color: #4B5563;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
-.featureButton:hover {
-  background-color: lightgray;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.navLink:hover {
+  color: #111827;
+  background-color: #F3F4F6;
 }
 
-.featureButton:active {
-  background-color: gray;
-  transform: scale(0.98);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .userInfo {
-  margin-left: 30px;
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 .userName {
-  font-size: 20px;
-  margin-right: 20px;
-  font-weight: bold;
-  color: black;
-}
-
-.userName:hover {
-  cursor: pointer;
-  text-decoration: underline;
+  font-weight: 500;
+  color: #111827;
 }
 
 .profilePic {
-  height: 75px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  margin-left: 10px;
+  object-fit: cover;
+  border: 2px solid #E5E7EB;
+  transition: border-color 0.2s ease;
 }
 
 .profilePic:hover {
-  cursor: pointer;
+  border-color: #4F46E5;
 }
