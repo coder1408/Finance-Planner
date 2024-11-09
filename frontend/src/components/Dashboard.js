@@ -53,11 +53,20 @@ const Dashboard = () => {
 
           setLoans(Array.isArray(loansData) ? loansData : []);
           setExpenses(Array.isArray(expensesData) ? expensesData : []);
+
+          // Fixed goals calculation
           const processedGoals = Array.isArray(goalsData) ? goalsData.map(goal => {
+            // Calculate the sum of expenses for this category
             const categoryExpenses = expensesData.reduce((sum, expense) =>
                 expense.category === goal.category ? sum + expense.amount : sum, 0);
-            return { ...goal, currentAmount: Math.max(0, categoryExpenses - goal.targetAmount) };
+
+            // The currentAmount should be the actual expenses, not the difference
+            return {
+              ...goal,
+              currentAmount: categoryExpenses
+            };
           }) : [];
+
           setGoals(processedGoals);
         }
       } catch (err) {
@@ -68,7 +77,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [user]);
+  }, [user])
 
   if (loading) {
     return <div className={mainContentStyles.loadingContainer}>
@@ -102,7 +111,9 @@ const Dashboard = () => {
                   <div key={goal._id} className={mainContentStyles.goalCard}>
                     <div className={mainContentStyles.goalHeader}>
                       <h3>{goal.category}</h3>
-                      <span className={mainContentStyles.percentageBadge}>{percentage}%</span>
+                      <span className={mainContentStyles.percentageBadge} style={{
+                        backgroundColor: percentage >= 100 ? "red" : '#4F46E5'
+                      }}>{percentage}%</span>
                     </div>
                     <div className={mainContentStyles.goalStats}>
                   <span className={mainContentStyles.currentAmount}>
@@ -118,7 +129,7 @@ const Dashboard = () => {
                           className={mainContentStyles.progressFill}
                           style={{
                             width: `${percentage}%`,
-                            backgroundColor: percentage >= 100 ? '#10B981' : '#4F46E5'
+                            backgroundColor: percentage >= 100 ? "red" : '#4F46E5'
                           }}
                       />
                     </div>
@@ -156,7 +167,7 @@ const Dashboard = () => {
 
         <aside className={sidebarStyles.sidebar}>
           <div className={sidebarStyles.welcomeSection}>
-            <h2 className={sidebarStyles.welcomeText}>Welcome back</h2>
+            <h2 className={sidebarStyles.welcomeText}>Welcome back,</h2>
             <p className={sidebarStyles.userName}>{user ? user.name : 'Guest'}</p>
           </div>
           <nav className={sidebarStyles.navigation}>
