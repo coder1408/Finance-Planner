@@ -6,6 +6,7 @@
     height: 168vh;
     position: absolute;
     top: 112px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .welcomeSection {
