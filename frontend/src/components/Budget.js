@@ -249,7 +249,7 @@ const BudgetTracker = () => {
                   onChange={(e) => setIncome(e.target.value)}
                   placeholder="Enter monthly income"
               />
-              <button type="submit">Add Income</button>
+              <button className={styles.incomeButton} type="submit">Add Income</button>
               </form>
           </div>
         </div>

@@ -26,6 +26,16 @@
   width: 150px;
 }
 
+.incomeButton{
+    padding: 8px 16px;
+    background-color: #ff0084;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
 .navigation {
   display: flex;
   gap: 10px;
