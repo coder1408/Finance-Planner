@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../assets/styles/homepage/Homepage.module.css"; // Import CSS module
+import styles from "../assets/styles/homepage/Homepage.module.css";
 import logo from "../assets/images/logo.png";
 import homeImage from "../assets/images/home-removebg-preview.png";
 import gmailIcon from "../assets/images/gmail.png";
@@ -9,53 +9,39 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   return (
-      <div className = {styles.body}>
-        <header>
-          <div className={styles.headerContent}>
-            <div className={styles.logoSection}>
+      <div className={styles.container}>
+        <header className={styles.header}>
+          <div className={styles.headerInner}>
+            <div className={styles.brandSection}>
               <img src={logo} alt="PrimePlan Logo" className={styles.logo} />
-              <span className={styles.companyName}>PrimePlan Financials</span>
+              <span className={styles.brandName}>PrimePlan Financials</span>
+              <span className={styles.brandSeparator}>|</span>
+              <span className={styles.brandTagline}>Financial Excellence</span>
             </div>
-            <nav>
+
+            <nav className={styles.navigation}>
               <ul>
                 <li>
-                  <button
-                    onClick={() => navigate("/signup")}
-                    className={styles.navButton}
-                  >
-                    Expense Tracker
+                  <button onClick={() => navigate("/signup")}>
+                    Expense Analytics
                   </button>
                 </li>
                 <li>
-                  <button
-                    onClick={() => navigate("/signup")}
-                    className={styles.navButton}
-                  >
-                    Budgeting Tools
+                  <button onClick={() => navigate("/signup")}>
+                    Budget Solutions
                   </button>
                 </li>
                 <li>
-                  <button
-                    onClick={() => navigate("/signup")}
-                    className={styles.navButton}
-                  >
-                    Investment Guide
+                  <button onClick={() => navigate("/signup")}>
+                    Investment Portal
                   </button>
                 </li>
                 <li>
-                  <button
-                    onClick={() => navigate("/about")}
-                    className={styles.navButton}
-                  >
-                    About
-                  </button>
+                  <button onClick={() => navigate("/about")}>About</button>
                 </li>
                 <li>
-                  <button
-                    onClick={() => navigate("/FAQ's")}
-                    className={styles.navButton}
-                  >
-                  Support
+                  <button onClick={() => navigate("/faq's")} className={styles.supportButton}>
+                    Support
                   </button>
                 </li>
               </ul>
@@ -63,45 +49,53 @@ const Homepage = () => {
           </div>
         </header>
 
-        {/* Main Section */}
-        <main>
-          <div className={styles.heroSection}>
-            <div className={styles.imageContainer}>
-              <img
-                src={homeImage}
-                alt="Dashboard illustration"
-                className={styles.heroImage}
-              />
+        <main className={styles.main}>
+          <div className={styles.heroContent}>
+            <div className={styles.textContent}>
+              <h1 className={styles.mainHeading}>
+                Elevate Your
+                <span className={styles.emphasis}> Financial</span> Future
+              </h1>
+              <p className={styles.subheading}>
+                Sophisticated tools for modern financial management and wealth building
+              </p>
+              <div className={styles.ctaSection}>
+                <button
+                    className={styles.primaryCta}
+                    onClick={() => navigate("/signup")}
+                >
+                  Sign Up
+                </button>
+                <button
+                    className={styles.secondaryCta}
+                    onClick={() => navigate("/login")}
+                >
+                  Sign In
+                </button>
+              </div>
             </div>
-            <h1 className={styles.heroTitle}>
-              Master your money,
-              <br /> master your future.
-            </h1>
-            <div className={styles.buttons}>
-              <button
-                type="button"
-                className={styles.signupButton}
-                onClick={() => navigate("/signup")}
-              >
-                Sign Up
-              </button>
-              <button
-                className={styles.loginButton}
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </button>
+            <div className={styles.imageSection}>
+              <img
+                  src={homeImage}
+                  alt="Financial Dashboard Preview"
+                  className={styles.heroImage}
+              />
             </div>
           </div>
         </main>
 
-        {/* Footer Section */}
-        <footer>
-          <p>
-            Have questions or need support?
-            <br /> Contact us for prompt assistance.
-          </p>
-          <img src={gmailIcon} alt="Gmail icon" className={styles.contactIcon} />
+        <footer className={styles.footer}>
+          <div className={styles.footerContent}>
+            <div className={styles.footerInfo}>
+              <p className={styles.footerText}>
+                Need assistance? Our dedicated support team is here to help.
+              </p>
+              <a href="mailto:support@primeplan.com" className={styles.contactLink}>
+                <img src={gmailIcon} alt="Email" className={styles.contactIcon} />
+                <span>Contact Support</span>
+              </a>
+            </div>
+          </div>
         </footer>
       </div>
   );
