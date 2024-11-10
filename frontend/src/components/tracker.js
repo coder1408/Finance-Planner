@@ -1,13 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
 import styles from "../assets/styles/emicalculator/emi.module.css";
 
 const LoanTracker = () => {
@@ -21,7 +12,6 @@ const LoanTracker = () => {
     loanType: "Personal",
     startDate: "",
   });
-  const [selectedLoan, setSelectedLoan] = useState(null);
   const [payments, setPayments] = useState([]);
   const [userID, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -152,40 +142,6 @@ const LoanTracker = () => {
     });
 
     return Math.max(0, balance);
-  };
-
-  // Generate payment schedule
-  const generatePaymentSchedule = (loan) => {
-    if (!loan) return [];
-    const schedule = [];
-    let balance = loan.loanAmount;
-    const monthlyPayment = calculateMonthlyPayment(
-        loan.loanAmount,
-        loan.interestRate,
-        loan.term
-    );
-    const monthlyRate = loan.interestRate / 100 / 12;
-
-    for (let i = 1; i <= loan.term * 12; i++) {
-      const interest = balance * monthlyRate;
-      const principal = monthlyPayment - interest;
-      balance -= principal;
-
-      schedule.push({
-        paymentNumber: i,
-        date: new Date(
-            new Date(loan.startDate).setMonth(
-                new Date(loan.startDate).getMonth() + i
-            )
-        ),
-        totalPayment: monthlyPayment,
-        principal: principal,
-        interest: interest,
-        remainingBalance: balance,
-      });
-    }
-
-    return schedule;
   };
 
   const calculateSummary = () => {
