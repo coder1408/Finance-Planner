@@ -179,9 +179,10 @@
 }
 
 .heroImage {
-    max-width: 100%;
+    max-width: 90%;
     height: auto;
     filter: drop-shadow(0 10px 20px rgba(26, 35, 126, 0.1));
+    border-radius: 12px;
 }
 
 /* Footer */

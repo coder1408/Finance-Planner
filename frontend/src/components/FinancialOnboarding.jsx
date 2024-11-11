@@ -19,20 +19,20 @@ const questions = [
         id: 2,
         question: "What is your average monthly income?",
         options: [
-            "Under $2,000",
-            "$2,000 - $5,000",
-            "$5,000 - $10,000",
-            "Over $10,000"
+            "Under ₹20,000",
+            "₹20,000 - ₹50,000",
+            "₹50,000 - ₹1,00,000",
+            "Over ₹1,00,000"
         ]
     },
     {
         id: 3,
         question: "How much do you typically spend on monthly essentials (housing, groceries, utilities)?",
         options: [
-            "Under $1,000",
-            "$10,000 - $2,000",
-            "$2,000 - $3,000",
-            "Over $3,000"
+            "Under ₹10,000",
+            "₹10,000 - ₹20,000",
+            "₹20,000 - ₹30,000",
+            "Over ₹30,000"
         ]
     },
     {
@@ -50,9 +50,9 @@ const questions = [
         question: "How much do you invest monthly?",
         options: [
             "None",
-            "Under $500",
-            "$500 - $1500",
-            "Over $1500"
+            "Under ₹5000",
+            "₹5000 - ₹15000",
+            "Over ₹15000"
         ]
     },
     {
@@ -69,10 +69,10 @@ const questions = [
         id: 7,
         question: "How much discretionary spending (entertainment, dining out) do you typically have monthly?",
         options: [
-            "Under $100",
-            "$100 - $300",
-            "$300 - $500",
-            "Over $500"
+            "Under ₹1000",
+            "₹1000 - ₹3000",
+            "₹3000 - ₹5000",
+            "Over ₹5000"
         ]
     }
 ];

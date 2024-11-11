@@ -173,7 +173,7 @@ const UserFinances = ({ userProfile }) => (
             <DollarSign size={20} />
             <div>
                 <h3>Income</h3>
-                <p>${userProfile.income.toLocaleString()}</p>
+                <p>₹{userProfile.income.toLocaleString()}</p>
             </div>
         </div>
         <div className={styles.metaItem}>

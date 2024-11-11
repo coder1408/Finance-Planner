@@ -92,7 +92,7 @@ exports.generateInvoice = async (req, res) => {
             doc.moveDown();
             expenses.forEach(expense => {
                 doc.fontSize(12)
-                    .text(`Amount: $${(expense.amount || 0).toFixed(2)}`)
+                    .text(`Amount: ₹${(expense.amount || 0).toFixed(2)}`)
                     .text(`Date: ${new Date(expense.date).toLocaleDateString()}`)
                     .moveDown();
             });
@@ -106,7 +106,7 @@ exports.generateInvoice = async (req, res) => {
             goals.forEach(goal => {
                 doc.fontSize(12)
                     .text(`Goal: ${goal.category}`)
-                    .text(`Target Amount: $${(goal.targetAmount || 0).toFixed(2)}`)
+                    .text(`Target Amount: ₹${(goal.targetAmount || 0).toFixed(2)}`)
                     .moveDown();
             });
         }
@@ -119,7 +119,7 @@ exports.generateInvoice = async (req, res) => {
             loans.forEach(loan => {
                 doc.fontSize(12)
                     .text(`Loan Type: ${loan.loanType}`)
-                    .text(`Principal Amount: $${(loan.loanAmount || 0).toFixed(2)}`)
+                    .text(`Principal Amount: ₹${(loan.loanAmount || 0).toFixed(2)}`)
                     .text(`Interest Rate: ${loan.interestRate}%`)
                     .moveDown();
             });

@@ -312,7 +312,7 @@ const BudgetTracker = () => {
                   {expenses.map(expense => (
                       <div key={expense.id} className={styles.expenseItem}>
                         <span className={styles.category}>{expense.category}</span>
-                        <span className={styles.amount}>${expense.amount.toFixed(2)}</span>
+                        <span className={styles.amount}>₹{expense.amount.toFixed(2)}</span>
                         <span className={styles.date}>{expense.date}</span>
                       </div>
                   ))}
@@ -338,7 +338,7 @@ const BudgetTracker = () => {
                       <div key={category} className={styles.categoryItem}>
                         {category}
                         <span className={styles.categoryTotal}>
-                    ${(categoryTotals[category] || 0).toFixed(2)}
+                    ₹{(categoryTotals[category] || 0).toFixed(2)}
                   </span>
                       </div>
                   ))}
@@ -379,7 +379,7 @@ const BudgetTracker = () => {
                         <div key={goal.id} className={styles.goalItem}>
                           <div className={styles.goalInfo}>
                             <span>{goal.category}</span>
-                            <span>${spent.toFixed(2)} / ${goal.targetAmount}</span>
+                            <span>₹{spent.toFixed(2)} / ₹{goal.targetAmount}</span>
                           </div>
                           <div className={styles.progressBar}>
                             <div
@@ -401,16 +401,16 @@ const BudgetTracker = () => {
                 <div className={styles.summary}>
                   <div className={styles.summaryItem}>
                     <h3>Total Income</h3>
-                    <span>${parseFloat(income || 0).toFixed(2)}</span>
+                    <span>₹{parseFloat(income || 0).toFixed(2)}</span>
                   </div>
                   <div className={styles.summaryItem}>
                     <h3>Total Expenses</h3>
-                    <span>${totalExpenses.toFixed(2)}</span>
+                    <span>₹{totalExpenses.toFixed(2)}</span>
                   </div>
                   <div className={styles.summaryItem}>
                     <h3>Remaining</h3>
                     <span className={remainingBudget < 0 ? styles.negative : ''}>
-                  ${remainingBudget.toFixed(2)}
+                  ₹{remainingBudget.toFixed(2)}
                 </span>
                   </div>
                 </div>

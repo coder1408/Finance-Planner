@@ -195,7 +195,7 @@ const Invoice = ({ billingPeriod }) => {
                         <div key={expense._id} className={styles.card}>
                           <div className={styles.cardHeader}>{expense.category}</div>
                           <div className={styles.cardBody}>
-                            <span className={styles.amount}>${expense.amount}</span>
+                            <span className={styles.amount}>₹{expense.amount}</span>
                             <span className={styles.label}>Amount Spent</span>
                           </div>
                         </div>
@@ -214,7 +214,7 @@ const Invoice = ({ billingPeriod }) => {
                         <div key={goal._id} className={styles.card}>
                           <div className={styles.cardHeader}>{goal.category}</div>
                           <div className={styles.cardBody}>
-                            <span className={styles.amount}>${goal.targetAmount}</span>
+                            <span className={styles.amount}>₹{goal.targetAmount}</span>
                             <span className={styles.label}>Target Amount</span>
                           </div>
                         </div>
@@ -233,7 +233,7 @@ const Invoice = ({ billingPeriod }) => {
                         <div key={loan._id} className={styles.card}>
                           <div className={styles.cardHeader}>{loan.loanType}</div>
                           <div className={styles.cardBody}>
-                            <span className={styles.amount}>${loan.loanAmount}</span>
+                            <span className={styles.amount}>₹{loan.loanAmount}</span>
                             <span className={styles.label}>Loan Amount</span>
                           </div>
                         </div>

@@ -313,19 +313,19 @@ const LoanTracker = () => {
             <div className={styles.summaryGrid}>
               <div className={styles.summaryCard}>
                 <h3>Total Loans</h3>
-                <p>${summary.totalLoans.toFixed(2)}</p>
+                <p>₹{summary.totalLoans.toFixed(2)}</p>
               </div>
               <div className={styles.summaryCard}>
                 <h3>Total Paid</h3>
-                <p>${summary.totalPaid.toFixed(2)}</p>
+                <p>₹{summary.totalPaid.toFixed(2)}</p>
               </div>
               <div className={styles.summaryCard}>
                 <h3>Interest Paid</h3>
-                <p>${summary.totalInterestPaid.toFixed(2)}</p>
+                <p>₹{summary.totalInterestPaid.toFixed(2)}</p>
               </div>
               <div className={styles.summaryCard}>
                 <h3>Remaining Balance</h3>
-                <p>${summary.totalRemaining.toFixed(2)}</p>
+                <p>₹{summary.totalRemaining.toFixed(2)}</p>
               </div>
             </div>
           </section>
@@ -335,7 +335,7 @@ const LoanTracker = () => {
             <form onSubmit={handleAddLoan}>
               <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
-                  <label>Loan Amount ($)</label>
+                  <label>Loan Amount (₹)</label>
                   <input
                       type="number"
                       value={newLoan.loanAmount}
@@ -427,14 +427,14 @@ const LoanTracker = () => {
                         </div>
 
                         <div className={styles.loanDetails}>
-                          <p>Amount: ${loan.loanAmount.toFixed(2)}</p>
+                          <p>Amount: ₹{loan.loanAmount.toFixed(2)}</p>
                           <p>Interest Rate: {loan.interestRate}%</p>
                           <p>Term: {loan.term} years</p>
-                          <p>Monthly Payment: ${loan.monthlyPayment.toFixed(2)}</p>
+                          <p>Monthly Payment: ₹{loan.monthlyPayment.toFixed(2)}</p>
                           <p>Start Date: {new Date(loan.startDate).toLocaleDateString()}</p>
-                          <p>Total Paid: ${totalPaid.toFixed(2)}</p>
-                          <p>Interest Paid: ${totalInterest.toFixed(2)}</p>
-                          <p>Remaining Balance: ${remainingBalance.toFixed(2)}</p>
+                          <p>Total Paid: ₹{totalPaid.toFixed(2)}</p>
+                          <p>Interest Paid: ₹{totalInterest.toFixed(2)}</p>
+                          <p>Remaining Balance: ₹{remainingBalance.toFixed(2)}</p>
                         </div>
 
                         <div className={styles.paymentSection}>
@@ -467,7 +467,7 @@ const LoanTracker = () => {
                                     .sort((a, b) => new Date(b.date) - new Date(a.date))
                                     .map((payment, index) => (
                                         <li key={payment._id || index}>
-                                          ${payment.amount.toFixed(2)} - {new Date(payment.date).toLocaleDateString()}
+                                          ₹{payment.amount.toFixed(2)} - {new Date(payment.date).toLocaleDateString()}
                                         </li>
                                     ))}
                               </ul>

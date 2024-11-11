@@ -117,11 +117,11 @@ const Dashboard = () => {
                     </div>
                     <div className={mainContentStyles.goalStats}>
                   <span className={mainContentStyles.currentAmount}>
-                    ${goal.currentAmount.toLocaleString()}
+                    ₹{goal.currentAmount.toLocaleString()}
                   </span>
                       <span className={mainContentStyles.separator}>of</span>
                       <span className={mainContentStyles.targetAmount}>
-                    ${goal.targetAmount.toLocaleString()}
+                    ₹{goal.targetAmount.toLocaleString()}
                   </span>
                     </div>
                     <div className={mainContentStyles.progressBar}>
@@ -225,7 +225,7 @@ const Dashboard = () => {
                           ))}
                         </Pie>
                         <Tooltip
-                            formatter={(value) => `$${value.toLocaleString()}`}
+                            formatter={(value) => `₹${value.toLocaleString()}`}
                             contentStyle={{
                               backgroundColor: 'rgba(255, 255, 255, 0.95)',
                               borderRadius: '8px',
@@ -258,7 +258,7 @@ const Dashboard = () => {
                             tick={{ fill: '#4B5563' }}
                         />
                         <Tooltip
-                            formatter={(value) => `$${value.toLocaleString()}`}
+                            formatter={(value) => `₹${value.toLocaleString()}`}
                             contentStyle={{
                               backgroundColor: 'rgba(255, 255, 255, 0.95)',
                               borderRadius: '8px',

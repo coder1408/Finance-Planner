@@ -4,7 +4,6 @@ import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import Dashboard from "./components/Dashboard";
 import Homepage from "./components/Homepage";
-import ExpenseTracker from "./components/ExpenseTracker";
 import Tracker from "./components/tracker";
 import About from "./components/about";
 import FAQ from "./components/FAQ's";
@@ -45,7 +44,6 @@ const App = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/about" element={<About />} />
-          <Route path="/expense-tracker" element={<ExpenseTracker />} />
           <Route path="/FAQ's" element={<FAQ />} />
           <Route path="/Budget" element={<BudgetAllocation />} />
           <Route path="/tracker" element={<Tracker />} />

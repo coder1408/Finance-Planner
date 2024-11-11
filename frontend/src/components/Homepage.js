@@ -70,7 +70,7 @@ const Homepage = () => {
                     className={styles.secondaryCta}
                     onClick={() => navigate("/login")}
                 >
-                  Sign In
+                  Login
                 </button>
               </div>
             </div>
