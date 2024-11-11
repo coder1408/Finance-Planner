@@ -39,9 +39,6 @@ const FinancialGuide = () => {
                     fetch('/api/guide/loan-repayment-advice', { headers })
                 ]);
 
-                if (!overviewRes.ok || !goalRes.ok || !loanRes.ok) {
-                    throw new Error('Failed to fetch data');
-                }
 
                 const [overviewData, goalData, loanData] = await Promise.all([
                     overviewRes.json(),

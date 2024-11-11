@@ -56,10 +56,6 @@ const LoanTracker = () => {
           },
         });
 
-        if (!loansResponse.ok) {
-          throw new Error("Failed to fetch loans");
-        }
-
         const loansData = await loansResponse.json();
         setLoans(Array.isArray(loansData) ? loansData : []);
 
@@ -79,7 +75,6 @@ const LoanTracker = () => {
           const paymentsData = await paymentsResponse.json();
           setPayments(Array.isArray(paymentsData) ? paymentsData : []);
         }
-
       } catch (error) {
         console.error("Error in data fetching:", error);
         setError(error.message);
@@ -409,76 +404,83 @@ const LoanTracker = () => {
             </form>
           </section>
 
-          <section className={styles.yourLoans}>
-            <h2>Your Loans</h2>
-            <ul>
-              {loans.map((loan) => {
-                const loanPayments = payments.filter(p => p.loanId === loan._id);
-                const totalPaid = loanPayments.reduce((sum, p) => sum + p.amount, 0);
-                const remainingBalance = calculateRemainingBalance(loan, loanPayments);
-                const totalInterest = calculateTotalInterest(loan, loanPayments);
+          {loans.length > 0 ? (
+              <section className={styles.yourLoans}>
+                <h2>Your Loans</h2>
+                <ul>
+                  {loans.map((loan) => {
+                    const loanPayments = payments.filter(p => p.loanId === loan._id);
+                    const totalPaid = loanPayments.reduce((sum, p) => sum + p.amount, 0);
+                    const remainingBalance = calculateRemainingBalance(loan, loanPayments);
+                    const totalInterest = calculateTotalInterest(loan, loanPayments);
 
-                return (
-                    <li key={loan._id}>
-                      <div className={styles.loanCard}>
-                        <div className={styles.loanHeader}>
-                          <h3>{loan.lender}</h3>
-                          <span className={styles.loanType}>{loan.loanType}</span>
-                        </div>
-
-                        <div className={styles.loanDetails}>
-                          <p>Amount: ₹{loan.loanAmount.toFixed(2)}</p>
-                          <p>Interest Rate: {loan.interestRate}%</p>
-                          <p>Term: {loan.term} years</p>
-                          <p>Monthly Payment: ₹{loan.monthlyPayment.toFixed(2)}</p>
-                          <p>Start Date: {new Date(loan.startDate).toLocaleDateString()}</p>
-                          <p>Total Paid: ₹{totalPaid.toFixed(2)}</p>
-                          <p>Interest Paid: ₹{totalInterest.toFixed(2)}</p>
-                          <p>Remaining Balance: ₹{remainingBalance.toFixed(2)}</p>
-                        </div>
-
-                        <div className={styles.paymentSection}>
-                          <input
-                              type="number"
-                              value={paymentAmounts[loan._id] || ''}
-                              onChange={(e) => setPaymentAmounts(prev => ({
-                                ...prev,
-                                [loan._id]: e.target.value
-                              }))}
-                              placeholder="Enter payment amount"
-                              min="0"
-                              step="0.01"
-                              className={styles.paymentInput}
-                          />
-                          <button
-                              onClick={() => handlePayment(loan._id, paymentAmounts[loan._id])}
-                              disabled={!paymentAmounts[loan._id] || parseFloat(paymentAmounts[loan._id]) <= 0}
-                              className={styles.paymentButton}
-                          >
-                            Add Payment
-                          </button>
-                        </div>
-
-                        {loanPayments.length > 0 && (
-                            <div className={styles.paymentHistory}>
-                              <h4>Payment History</h4>
-                              <ul>
-                                {loanPayments
-                                    .sort((a, b) => new Date(b.date) - new Date(a.date))
-                                    .map((payment, index) => (
-                                        <li key={payment._id || index}>
-                                          ₹{payment.amount.toFixed(2)} - {new Date(payment.date).toLocaleDateString()}
-                                        </li>
-                                    ))}
-                              </ul>
+                    return (
+                        <li key={loan._id}>
+                          <div className={styles.loanCard}>
+                            <div className={styles.loanHeader}>
+                              <h3>{loan.lender}</h3>
+                              <span className={styles.loanType}>{loan.loanType}</span>
                             </div>
-                        )}
-                      </div>
-                    </li>
-                );
-              })}
-            </ul>
-          </section>
+
+                            <div className={styles.loanDetails}>
+                              <p>Amount: ₹{loan.loanAmount.toFixed(2)}</p>
+                              <p>Interest Rate: {loan.interestRate}%</p>
+                              <p>Term: {loan.term} years</p>
+                              <p>Monthly Payment: ₹{loan.monthlyPayment.toFixed(2)}</p>
+                              <p>Start Date: {new Date(loan.startDate).toLocaleDateString()}</p>
+                              <p>Total Paid: ₹{totalPaid.toFixed(2)}</p>
+                              <p>Interest Paid: ₹{totalInterest.toFixed(2)}</p>
+                              <p>Remaining Balance: ₹{remainingBalance.toFixed(2)}</p>
+                            </div>
+
+                            <div className={styles.paymentSection}>
+                              <input
+                                  type="number"
+                                  value={paymentAmounts[loan._id] || ''}
+                                  onChange={(e) => setPaymentAmounts(prev => ({
+                                    ...prev,
+                                    [loan._id]: e.target.value
+                                  }))}
+                                  placeholder="Enter payment amount"
+                                  min="0"
+                                  step="0.01"
+                                  className={styles.paymentInput}
+                              />
+                              <button
+                                  onClick={() => handlePayment(loan._id, paymentAmounts[loan._id])}
+                                  disabled={!paymentAmounts[loan._id] || parseFloat(paymentAmounts[loan._id]) <= 0}
+                                  className={styles.paymentButton}
+                              >
+                                Add Payment
+                              </button>
+                            </div>
+
+                            {loanPayments.length > 0 && (
+                                <div className={styles.paymentHistory}>
+                                  <h4>Payment History</h4>
+                                  <ul>
+                                    {loanPayments
+                                        .sort((a, b) => new Date(b.date) - new Date(a.date))
+                                        .map((payment, index) => (
+                                            <li key={payment._id || index}>
+                                              ₹{payment.amount.toFixed(2)} - {new Date(payment.date).toLocaleDateString()}
+                                            </li>
+                                        ))}
+                                  </ul>
+                                </div>
+                            )}
+                          </div>
+                        </li>
+                    );
+                  })}
+                </ul>
+              </section>
+          ) : (
+              <section className={styles.yourLoans}>
+                <h2>Your Loans</h2>
+                <p>You don't have any loans added yet.</p>
+              </section>
+          )}
         </div>
       </div>
   );
