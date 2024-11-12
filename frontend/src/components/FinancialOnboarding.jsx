@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import React, {useState} from 'react';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import styles from '../assets/styles/Onboarding/FinancialOnboarding.module.css';
 import {useNavigate} from "react-router-dom";
-import { useUser } from './UserContext';
+import {useUser} from './UserContext';
 
 const questions = [
     {
@@ -83,7 +83,7 @@ const FinancialOnboarding = () => {
     const [submissionMessage, setSubmissionMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
-    const { updateUserAfterOnboarding } = useUser();
+    const {updateUserAfterOnboarding} = useUser();
 
     const handleNext = () => {
         if (currentQuestion < questions.length - 1) {
@@ -133,7 +133,6 @@ const FinancialOnboarding = () => {
             setIsSubmitting(false);
         }
     };
-
 
 
     const renderOptions = () => (

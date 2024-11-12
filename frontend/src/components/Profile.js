@@ -180,21 +180,21 @@ const UserFinances = ({ userProfile }) => (
             <List size={20} />
             <div>
                 <h3>Expenses</h3>
-                <p>{userProfile.expenses.length} items</p>
+                <p>6 items</p>
             </div>
         </div>
         <div className={styles.metaItem}>
             <Briefcase size={20} />
             <div>
                 <h3>Budgets</h3>
-                <p>{userProfile.budgets.length} items</p>
+                <p>8 items</p>
             </div>
         </div>
         <div className={styles.metaItem}>
             <List size={20} />
             <div>
                 <h3>Loans</h3>
-                <p>{userProfile.loans.length} items</p>
+                <p>4 items</p>
             </div>
         </div>
     </div>

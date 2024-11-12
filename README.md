@@ -73,6 +73,7 @@ Welcome to the AI-Powered Personal Finance Planner, a comprehensive solution des
 - /pages - Main pages (e.g., Dashboard, Loan Tracker, Budget Tracker).
 - /assets - Static files and assets.
 - /styles - CSS styles and theming.
+- /TestCases - Test Cases (10)
 
 ## Usage
 
